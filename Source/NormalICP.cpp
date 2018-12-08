@@ -51,14 +51,14 @@ pcl::PointCloud<pcl::PointXYZ>::Ptr NormalICP::normalIcpRegistration(pcl::PointC
     do {
         icp->align(*cloud_source_trans_normals);
         if (icp->hasConverged()){
-            pcl::transformPointCloud(*source, *cloud_source_trans, icp->getFinalTransformation());
+            pcl::transformPointCloud(*source, *source, icp->getFinalTransformation());
             std::cout << "score : " << icp->getFitnessScore() << std::endl;
         }else{
             std::cerr<<"DIVERGED"<<std::endl;
             break;
         }
         k++;
-    } while((icp->getFitnessScore()>=0.3 || k<7) && (k<100));
+    } while((icp->getFitnessScore()>=0.3 || k<4) && (k<100));
 
     std::cout<<"done "<<k<<" align"<<std::endl;
 

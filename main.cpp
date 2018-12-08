@@ -22,7 +22,7 @@ int main() {
 
     utilities.showCloud(target);
     int alg = 1; // change this value to change icp algorithm
-    int directory_dimension = 10;
+    int directory_dimension = 30;
     for (int i = 0 ; i < directory_dimension; i++) {
             std::cout << "read : (3.4, -15.1, -26.9)(0.0, " << std::to_string(i) << ".0, 0.0).pcd" << std::endl;
             std::string filename = "../Points_30/(3.4, -15.1, -26.9)(0.0, " + std::to_string(i) +
@@ -34,12 +34,12 @@ int main() {
                     registerd = bruteICP.bruteIcpRegistration(source, target);
                     break;
                 case 1 :
-                    registerd = normalICP.normalIcpRegistration(source,target);
+                    *registerd += *normalICP.normalIcpRegistration(source,target);
                 default:
                     break;
             }
             utilities.refreshShowCloud(registerd);
-            target = registerd;
+            *target = *source;
     }
 
     utilities.saveFile(registerd);
