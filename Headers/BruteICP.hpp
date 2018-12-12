@@ -3,17 +3,11 @@
 
 #include <vector>
 
-#include <pcl/io/ply_io.h>
-#include <pcl/io/vtk_lib_io.h>
 #include <pcl/point_types.h>
 #include <pcl/registration/icp.h>
-#include <pcl/visualization/cloud_viewer.h>
 #include <pcl/filters/filter_indices.h>
 #include <pcl/common/transforms.h>
 #include <pcl/features/normal_3d.h>
-#include <vtkRenderWindow.h>
-#include <vtkRendererCollection.h>
-#include <vtkCamera.h>
 #include <pcl/filters/voxel_grid.h>
 #include <string>
 

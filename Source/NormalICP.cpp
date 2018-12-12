@@ -1,15 +1,21 @@
 #include "../Headers/NormalICP.hpp"
 
-NormalICP::NormalICP(){
+NormalICP::NormalICP() {
+	pcl::IterativeClosestPointWithNormals<pcl::PointXYZRGBNormal, pcl::PointXYZRGBNormal>::Ptr icp(
+		new pcl::IterativeClosestPointWithNormals<pcl::PointXYZRGBNormal, pcl::PointXYZRGBNormal>());
+	icp->setMaximumIterations(10);
+	icp->setTransformationEpsilon(1e-9);
+	icp->setEuclideanFitnessEpsilon(1e-9);
+	this->icp = icp;
+};
+
+NormalICP::~NormalICP() {
 
 };
 
-NormalICP::~NormalICP(){
 
-};
-
-
-void NormalICP::addNormal(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud_with_normals) {
+void NormalICP::addNormal(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
+                          pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud_with_normals) {
 
     pcl::PointCloud<pcl::Normal>::Ptr normals(new pcl::PointCloud<pcl::Normal>);
     pcl::search::KdTree<pcl::PointXYZ>::Ptr searchTree(new pcl::search::KdTree<pcl::PointXYZ>);
@@ -17,60 +23,41 @@ void NormalICP::addNormal(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointC
     pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> normalEstimator;
     normalEstimator.setInputCloud(cloud);
     normalEstimator.setSearchMethod(searchTree);
-    normalEstimator.setKSearch(15);
+    normalEstimator.setKSearch(20);
     normalEstimator.compute(*normals);
     pcl::concatenateFields(*cloud, *normals, *cloud_with_normals);
 
 }
 
-pcl::PointCloud<pcl::PointXYZ>::Ptr NormalICP::normalIcpRegistration(pcl::PointCloud<pcl::PointXYZ>::Ptr source, pcl::PointCloud<pcl::PointXYZ>::Ptr target){
+pcl::PointCloud<pcl::PointXYZ>::Ptr
+NormalICP::normalIcpRegistration(pcl::PointCloud<pcl::PointXYZ>::Ptr source,
+                                 pcl::PointCloud<pcl::PointXYZ>::Ptr target) {
+
     utilities.downScale(source);
-    utilities.downScale(target);
-
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_source_trans(new pcl::PointCloud<pcl::PointXYZ>());
-    cloud_source_trans = source;
-
+	utilities.downScale(target);
     // prepare could with normals
     pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud_source_normals(
             new pcl::PointCloud<pcl::PointXYZRGBNormal>());
     pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud_target_normals(
             new pcl::PointCloud<pcl::PointXYZRGBNormal>());
-    pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud_source_trans_normals(
-            new pcl::PointCloud<pcl::PointXYZRGBNormal>());
 
     addNormal(source, cloud_source_normals);
     addNormal(target, cloud_target_normals);
-    addNormal(cloud_source_trans, cloud_source_trans_normals);
 
-    pcl::IterativeClosestPointWithNormals<pcl::PointXYZRGBNormal, pcl::PointXYZRGBNormal>::Ptr icp(
-            new pcl::IterativeClosestPointWithNormals<pcl::PointXYZRGBNormal, pcl::PointXYZRGBNormal>());
-    icp->setMaximumIterations(1);
-    icp->setInputSource(cloud_source_trans_normals); // not cloud_source, but cloud_source_trans!
+
+    icp->setInputSource(cloud_source_normals);
     icp->setInputTarget(cloud_target_normals);
-    int k = 0;
-    do {
-        icp->align(*cloud_source_trans_normals);
-        if (icp->hasConverged()){
-            pcl::transformPointCloud(*source, *source, icp->getFinalTransformation());
-            std::cout << "score : " << icp->getFitnessScore() << std::endl;
-        }else{
-            std::cerr<<"DIVERGED"<<std::endl;
-            break;
-        }
-        k++;
-    } while((icp->getFitnessScore()>=0.3 || k<4) && (k<100));
+    icp->align(*cloud_source_normals);
 
-    std::cout<<"done "<<k<<" align"<<std::endl;
-
-    pcl::PointCloud<pcl::PointXYZ>::Ptr final_cloud(new pcl::PointCloud<pcl::PointXYZ>());
-
-
-    if(icp->hasConverged()){
-        *final_cloud = *target;
-        *final_cloud += *cloud_source_trans;
+    transformation *= icp->getFinalTransformation();
+    if (icp->hasConverged()) {
+        pcl::transformPointCloud(*source, *source, transformation);
+        std::cout << "score : " << icp->getFitnessScore() << std::endl;
+    } else {
+        std::cerr << "DIVERGED" << std::endl;
     }
+    std::cout << "local " << std::endl << icp->getFinalTransformation() << std::endl;
+    std::cout << "global " << std::endl << transformation << std::endl;
 
-    utilities.downScale(final_cloud);
-    return  final_cloud;
-
+    return source;
 };

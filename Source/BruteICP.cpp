@@ -19,11 +19,11 @@ BruteICP::bruteIcpRegistration(pcl::PointCloud<pcl::PointXYZ>::Ptr source, pcl::
     source_trans = source;
     icp.setInputSource(source_trans);
     icp.setInputTarget(target);
-    icp.setMaximumIterations(1);
+    icp.setMaximumIterations(50);
     icp.setTransformationEpsilon(1e-9);
     icp.setMaxCorrespondenceDistance(100);
     icp.setEuclideanFitnessEpsilon(1);
-    icp.setRANSACOutlierRejectionThreshold(1.0);
+    //icp.setRANSACOutlierRejectionThreshold(1.0);
 
     // increasing  k increase the precision
     int k = 0;
