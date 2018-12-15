@@ -30,7 +30,7 @@ int main() {
     subscriber.setsockopt(ZMQ_SUBSCRIBE, "", 0);
 
     std::priority_queue<PriorityPointCloud , std::vector<PriorityPointCloud >, PriorityCloudComparator> priority_points;
-    int alg = 1; // change this value to change icp algorithm
+    int alg = 0; // change this value to change icp algorithm
     Register regis = Register(alg,&priority_points);
 
     bool initial_point_cloud = true;

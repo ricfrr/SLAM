@@ -23,10 +23,9 @@ public:
     pcl::PointCloud<pcl::PointXYZ>::Ptr bruteIcpRegistration (pcl::PointCloud<pcl::PointXYZ>::Ptr source, pcl::PointCloud<pcl::PointXYZ>::Ptr target);
 
 private:
-
+    Eigen::Matrix4f transformation = Eigen::Matrix4f::Identity();
     Utilities utilities;
-    float treshold = 0.3;
-
+    pcl::IterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ>::Ptr icp;
 };
 
 #endif /* BruteICP_hpp */

@@ -16,21 +16,24 @@ void Register::registration(){
     utilities.showCloud(target);
     while(!priority_points->empty()){
 
+        pr = priority_points->top();
+        source = pr.getPointCloud();
+        pcl::copyPointCloud(*source, *buffer);
+        priority_points->pop();
+
         switch (alg) {
             case 0 :
-                registered = bruteICP.bruteIcpRegistration(source, target);
+                *registered += *bruteICP.bruteIcpRegistration(source, target);
                 break;
             case 1 : {
-                pr = priority_points->top();
-                source = pr.getPointCloud();
-                pcl::copyPointCloud(*source, *buffer);
                 *registered += *normalICP.normalIcpRegistration(source, target);
-                pcl::copyPointCloud(*buffer, *target);
-                priority_points->pop();
+                break;
             }
             default:
                 break;
         }
+        pcl::copyPointCloud(*buffer, *target);
+
         utilities.downScale(registered);
         utilities.refreshShowCloud(registered);
     }

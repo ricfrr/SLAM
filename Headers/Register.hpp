@@ -30,8 +30,8 @@ public:
 private:
     int alg =0;
     std::priority_queue<PriorityPointCloud, std::vector<PriorityPointCloud>, PriorityCloudComparator> *priority_points = nullptr;
-    BruteICP bruteICP;
-    NormalICP normalICP;
+    BruteICP bruteICP = BruteICP();
+    NormalICP normalICP = NormalICP();
     Utilities utilities;
 
 };
