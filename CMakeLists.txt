@@ -6,19 +6,19 @@ include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
-
+find_package(cppzmq)
 
 file(GLOB source_files
         "*.h"
+        "Headers/*"
+        "Source/*"
         "*.cpp"
-        "Headers/*.hpp"
-        "Source/*.cpp"
         "config/*"
         )
 
 set(SOURCE_FILES main.cpp)
 add_executable(pcl ${source_files})
-target_link_libraries(pcl ${PCL_LIBRARIES})
+target_link_libraries(pcl ${PCL_LIBRARIES} cppzmq)
 
 
 SET(COMPILE_FLAGS "-std=c++11")
