@@ -9,14 +9,48 @@ Utilities::~Utilities() {
 
 };
 
+
+std::vector<std::string> Utilities::split(const std::string &str, const std::string &delim) {
+    std::vector<std::string> tokens;
+    size_t prev = 0, pos = 0;
+    do {
+        pos = str.find(delim, prev);
+        if (pos == std::string::npos) pos = str.length();
+        std::string token = str.substr(prev, pos - prev);
+        if (!token.empty()) tokens.push_back(token);
+        prev = pos + delim.length();
+    } while (pos < str.length() && prev < str.length());
+    return tokens;
+}
+
+
+PriorityPointCloud Utilities::fromStringToPriorityPointCloud(const std::string &st) {
+
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
+    std::vector<std::string> lines = split(st, "\n");
+    // priority of the point cloud
+    int priority = std::stoi(lines[0]);
+    //generate the point cloud
+    for (int i = 1; i < lines.size(); i++) {
+        std::vector<std::string> point = split(lines[i]," ");
+        pcl::PointXYZ t_point = pcl::PointXYZ(std::stof(point[0]),std::stof(point[1]),std::stof(point[2]));
+        cloud->push_back(t_point);
+    }
+    //generate the priority point cloud
+    PriorityPointCloud priorityPointCloud = PriorityPointCloud(priority,cloud);
+    // push the priority point cloud to the queue
+    return priorityPointCloud;
+}
+
+
 void Utilities::loadFile(const std::string fileName, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
     pcl::io::loadPCDFile<pcl::PointXYZ> (fileName, *cloud);
-   // Eigen::Matrix4f mirrorX; // Mirror over x-axis. Unity is left-handed, whilst PCL is right-handed
-    //mirrorX << -1.0, 0.0, 0.0, 0.0,
+    Eigen::Matrix4f mirrorX; // Mirror over x-axis. Unity is left-handed, whilst PCL is right-handed
+    mirrorX << -1.0, 0.0, 0.0, 0.0,
             0.0, 1.0, 0.0, 0.0,
             0.0, 0.0, 1.0, 0.0,
             0.0, 0.0, 0.0, 1.0;
-    //pcl::transformPointCloud(*cloud, *cloud, mirrorX);
+    pcl::transformPointCloud(*cloud, *cloud, mirrorX);
 
     /*
     pcl::PolygonMesh mesh;

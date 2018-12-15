@@ -2,60 +2,65 @@
 // Created by riccardo on 08/12/2018.
 //
 #include <iostream>
+#include <fstream>
 #include "Headers/Utilities.hpp"
-#include "Headers/BruteICP.hpp"
-#include "Headers/NormalICP.hpp"
-#include <Eigen/Core> // Eigen matrices
+#include "Headers/Register.hpp"
+#include "Headers/PriorityPointCloud.hpp"
+#include "Headers/PriorityCloudComparator.hpp"
+#include <Eigen/Core>// Eigen matrices
 #include <pcl/io/io.h>
+#include <pcl/common/io.h>
+#include <pcl/io/pcd_io.h>
 #include <pcl/conversions.h>
-
-
+#include <zmq.hpp>
+#include <chrono>
+#include <boost/thread.hpp>
+#include <thread>
+#include <zconf.h>
+#include <queue>
 
 
 int main() {
-    Utilities utilities = Utilities();
-    BruteICP bruteICP = BruteICP();
-    NormalICP normalICP = NormalICP();
+    Utilities utilities;
 
-    pcl::PointCloud<pcl::PointXYZ>::Ptr source(new pcl::PointCloud<pcl::PointXYZ>);
-    pcl::PointCloud<pcl::PointXYZ>::Ptr target(new pcl::PointCloud<pcl::PointXYZ>);
-	pcl::PointCloud<pcl::PointXYZ>::Ptr buffer(new pcl::PointCloud<pcl::PointXYZ>);
-    pcl::PointCloud<pcl::PointXYZ>::Ptr registered(new pcl::PointCloud<pcl::PointXYZ>);
+    // connection with the Unity
+    zmq::context_t context(1);
+    zmq::socket_t subscriber(context, ZMQ_SUB);
+    subscriber.connect("tcp://127.0.0.1:12347");
+    subscriber.setsockopt(ZMQ_SUBSCRIBE, "", 0);
 
-    pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr source_normal(new pcl::PointCloud<pcl::PointXYZRGBNormal>);
-    pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr target_normal(new pcl::PointCloud<pcl::PointXYZRGBNormal>);
-    pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr registerd_normal(new pcl::PointCloud<pcl::PointXYZRGBNormal>);
-
-
-
-    utilities.loadFile("../../Points_30/(3.4, -15.1, -26.9)(0.0, 0.0, 0.0).pcd", target);
-    utilities.downScale(target);
-    normalICP.addNormal(target,target_normal);
-    utilities.showCloud(target);
+    std::priority_queue<PriorityPointCloud , std::vector<PriorityPointCloud >, PriorityCloudComparator> priority_points;
     int alg = 1; // change this value to change icp algorithm
-    int directory_dimension = 360;
-    for (int i = 0 ; i < directory_dimension; i++) {
-            std::cout << "read : (3.4, -15.1, -26.9)(0.0, " << std::to_string(i) << ".0, 0.0).pcd" << std::endl;
-            std::string filename = "../../Points_30/(3.4, -15.1, -26.9)(0.0, " + std::to_string(i) +
-                                   ".0, 0.0).pcd"; // modidfy here the folder to change the dataset
+    Register regis = Register(alg,&priority_points);
 
-            utilities.loadFile(filename, source);
-            switch (alg) {
-                case 0 :
-					registered = bruteICP.bruteIcpRegistration(source, target);
-                    break;
-                case 1 :{
-					pcl::copyPointCloud(*source, *buffer);
-                    *registered += *normalICP.normalIcpRegistration(source,target);
-					pcl::copyPointCloud(*buffer, *target);
-                }
-                default:
-                    break;
-            }
-            utilities.refreshShowCloud(registered);
+    bool initial_point_cloud = true;
+    std::thread registration_thread (&Register::registration,&regis);
+    do {
+        std::cout << "waiting" << std::endl;
+        zmq::message_t request;
+        subscriber.recv(&request);
+        std::string pc = std::string(static_cast<char *>(request.data()), request.size());
+        PriorityPointCloud pr = utilities.fromStringToPriorityPointCloud(pc);
+        priority_points.push(pr);
+        // run the registration in a different thread
+    } while (!priority_points.empty());
+
+    std::cout<<"----NO MORE POINTS RECEIVED-----"<<std::endl;
+
+
+/*  FUNCTION FOR SENDIND MESSAGES
+    zmq::context_t context (1);
+    zmq::socket_t socket (context, ZMQ_PUB);
+    socket.bind ("tcp://127.0.0.1:12345");
+    while (true) {
+
+        //  Send reply back to client
+        zmq::message_t reply (5);
+        memcpy (reply.data (), "World", 5);
+        socket.send (reply);
+        std::cout<<"sent!"<<std::endl;
     }
-    utilities.downScale(registerd_normal);
-    utilities.saveFile(registerd_normal);
-    utilities.continueShowCloud();
+*/
+
     return 0;
 }
