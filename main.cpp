@@ -7,6 +7,7 @@
 #include "Headers/Register.hpp"
 #include "Headers/PriorityPointCloud.hpp"
 #include "Headers/PriorityCloudComparator.hpp"
+#include "Headers/Communication.hpp"
 #include <Eigen/Core>// Eigen matrices
 #include <pcl/io/io.h>
 #include <pcl/common/io.h>
@@ -21,46 +22,31 @@
 
 
 int main() {
-    Utilities utilities;
 
-    // connection with the Unity
-    zmq::context_t context(1);
-    zmq::socket_t subscriber(context, ZMQ_SUB);
-    subscriber.connect("tcp://127.0.0.1:12347");
-    subscriber.setsockopt(ZMQ_SUBSCRIBE, "", 0);
-
+    //point from unity
     std::priority_queue<PriorityPointCloud , std::vector<PriorityPointCloud >, PriorityCloudComparator> priority_points;
-    int alg = 0; // change this value to change icp algorithm
-    Register regis = Register(alg,&priority_points);
+    // points already transformed and ready to be sent to unity
+    std::priority_queue<PriorityPointCloud , std::vector<PriorityPointCloud >, PriorityCloudComparator> generated_points;
 
-    bool initial_point_cloud = true;
+    Utilities utilities;
+    Communication communication = Communication(&generated_points);
+    // connection with Unity
+    communication.enstablishSubscriberCommunication();
+    communication.enstablishPublisherComunication();
+
+    int alg = 1; // change this value to change icp algorithm
+    Register regis = Register(alg,&priority_points,&generated_points);
+
     std::thread registration_thread (&Register::registration,&regis);
+    std::thread send_thread (&Communication::sendMessage, &communication);
     do {
-        std::cout << "waiting" << std::endl;
-        zmq::message_t request;
-        subscriber.recv(&request);
-        std::string pc = std::string(static_cast<char *>(request.data()), request.size());
+        std::string pc = communication.receiveMessage();
         PriorityPointCloud pr = utilities.fromStringToPriorityPointCloud(pc);
         priority_points.push(pr);
-        // run the registration in a different thread
     } while (!priority_points.empty());
 
     std::cout<<"----NO MORE POINTS RECEIVED-----"<<std::endl;
 
-
-/*  FUNCTION FOR SENDIND MESSAGES
-    zmq::context_t context (1);
-    zmq::socket_t socket (context, ZMQ_PUB);
-    socket.bind ("tcp://127.0.0.1:12345");
-    while (true) {
-
-        //  Send reply back to client
-        zmq::message_t reply (5);
-        memcpy (reply.data (), "World", 5);
-        socket.send (reply);
-        std::cout<<"sent!"<<std::endl;
-    }
-*/
 
     return 0;
 }

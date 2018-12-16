@@ -20,7 +20,8 @@ public:
     Register();
 
     Register(int alg,
-             std::priority_queue<PriorityPointCloud, std::vector<PriorityPointCloud>, PriorityCloudComparator> *priority_points);
+             std::priority_queue<PriorityPointCloud, std::vector<PriorityPointCloud>, PriorityCloudComparator> *priority_points,
+             std::priority_queue<PriorityPointCloud, std::vector<PriorityPointCloud>, PriorityCloudComparator> *generated_points);
 
     ~Register();
 
@@ -28,8 +29,9 @@ public:
     void registration();
 
 private:
-    int alg =0;
+    int alg = 0;
     std::priority_queue<PriorityPointCloud, std::vector<PriorityPointCloud>, PriorityCloudComparator> *priority_points = nullptr;
+    std::priority_queue<PriorityPointCloud, std::vector<PriorityPointCloud>, PriorityCloudComparator> *generated_points = nullptr;
     BruteICP bruteICP = BruteICP();
     NormalICP normalICP = NormalICP();
     Utilities utilities;
