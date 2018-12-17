@@ -1,0 +1,19 @@
+﻿<Properties StartupConfiguration="{588BC305-758A-9E21-A70C-4F5172464079}|">
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/VelocitySlider.cs">
+    <Files>
+      <File FileName="Assets/Scripts/PlayerScript.cs" Line="91" Column="36" />
+      <File FileName="Assets/Scripts/Spinner.cs" Line="40" Column="5" />
+      <File FileName="Assets/Scripts/Cameraman.cs" Line="31" Column="44" />
+      <File FileName="Assets/Scripts/firstperson.cs" Line="9" Column="23" />
+      <File FileName="Assets/Scripts/ComputerScript.cs" Line="4" Column="22" />
+      <File FileName="Assets/Scripts/VelocitySlider.cs" Line="3" Column="19" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>
