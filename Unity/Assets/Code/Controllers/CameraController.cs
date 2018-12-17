@@ -100,11 +100,13 @@ namespace Assets.Code.Controllers
         {
             if (Input.GetKey(KeyCode.UpArrow))
             {
-                this.rotation.x += 1;
+                //needs to be deactivated for the car & activated for the drone
+                //this.rotation.x += 1;
             }
             if (Input.GetKey(KeyCode.DownArrow))
             {
-                this.rotation.x += -1;
+                //needs to be deactivated for the car & activated for the drone
+                //this.rotation.x += -1;
             }
             if (Input.GetKey(KeyCode.Space))
             {

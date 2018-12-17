@@ -56,8 +56,8 @@ namespace Assets.Code.GameObjects
 
         void Start()
         {
-            this.cameraController.SetPosition(new Vector3(0, 400, -400));
-            this.cameraController.SetRotation(new Vector3(50, 0, 0));
+            this.cameraController.SetPosition(new Vector3(0, 0, -40));
+            this.cameraController.SetRotation(new Vector3(0, 0, 0));
             this.geometryShader = Resources.Load<Shader>("GeometryShader");
 
             Init();

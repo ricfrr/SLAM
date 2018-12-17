@@ -81,6 +81,7 @@
     <Compile Include="Assets\Scripts\ComputerScript.cs" />
     <Compile Include="Assets\Scripts\firstperson.cs" />
     <Compile Include="Assets\Scripts\PlayerScript.cs" />
+    <Compile Include="Assets\Scripts\RadioScript.cs" />
     <Compile Include="Assets\Scripts\Spinner.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
