@@ -121,11 +121,11 @@ namespace Assets.Code.Controllers
             {
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
-                    this.rotation.y += 1;
+                    this.rotation.y += 3;
                 }
                 if (Input.GetKey(KeyCode.LeftArrow))
                 {
-                    this.rotation.y += -1;
+                    this.rotation.y += -3;
                 }
             }
 
