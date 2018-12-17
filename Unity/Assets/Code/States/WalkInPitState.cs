@@ -9,6 +9,7 @@ namespace Assets.Code.States
         private StateManager manager;
 
         private GameObject walkInPitGameObject;
+        private GameObject explorationTruck;
 
         private bool is3DcameraActive;
         private string activateCameraButtonText;
@@ -18,7 +19,8 @@ namespace Assets.Code.States
             this.manager = manager;
 
             // load into the scene
-            this.walkInPitGameObject = Object.Instantiate(Resources.Load("Walk In Pit", typeof(GameObject))) as GameObject;
+            this.walkInPitGameObject = Object.Instantiate(Resources.Load("Walk In Pit 1", typeof(GameObject))) as GameObject;
+            //this.explorationTruck = Object.Instantiate(Resources.Load("Truck", typeof(GameObject))) as GameObject;
         }
 
         public void StateUpdate()
