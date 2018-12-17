@@ -16,6 +16,8 @@ public class RadioScript : MonoBehaviour {
     private AudioSource song2_source;
     private AudioSource song3_source;
 
+    private AudioSource last_played;
+
     // Use this for initialization
     void Start () {
         song1_source = song1.GetComponent<AudioSource>();
@@ -31,6 +33,7 @@ public class RadioScript : MonoBehaviour {
             if (!song1_source.isPlaying)
             {
                 song1_source.Play();
+                last_played = song1_source;
             }
             song2_source.Stop();
             song3_source.Stop();
@@ -40,6 +43,7 @@ public class RadioScript : MonoBehaviour {
             if (!song2_source.isPlaying)
             {
                 song2_source.Play();
+                last_played = song2_source;
             }
             song1_source.Stop();
             song3_source.Stop();
@@ -49,6 +53,7 @@ public class RadioScript : MonoBehaviour {
         {
             if (!song3_source.isPlaying) {
                 song3_source.Play();
+                last_played = song3_source;
             }
 
 
@@ -60,7 +65,104 @@ public class RadioScript : MonoBehaviour {
             song1_source.Stop();
             song2_source.Stop();
             song3_source.Stop();
+            //last_played = null;
         }
 
     }
-}
+
+  public void PlaySong1(){
+        if (song_1_active)
+        {
+            song_1_active = false;
+        }
+        else{
+            song_1_active = true;
+            song_2_active = false;
+            song_3_active = false;
+        }
+
+    }
+
+    public void PlaySong2()
+    {
+        if (song_2_active)
+        {
+            song_2_active = false;
+        }
+        else
+        {
+            song_2_active = true;
+            song_1_active = false;
+            song_3_active = false;
+        }
+
+    }
+
+    public void PlaySong3()
+    {
+        if (song_3_active)
+        {
+            song_3_active = false;
+        }
+        else
+        {
+            song_3_active = true;
+            song_2_active = false;
+            song_1_active = false;
+        }
+
+    }
+
+    public void PlayNext(){
+
+        if(song_1_active){
+            PlaySong2();
+        }
+        else if (song_2_active){
+            PlaySong3();
+        }
+        else if(song_3_active){
+            PlaySong1();
+        }
+    }
+
+    public void PlayPrevious()
+    {
+
+        if (song_1_active)
+        {
+            PlaySong3();
+        }
+        else if (song_2_active)
+        {
+            PlaySong1();
+        }
+        else if (song_3_active)
+        {
+            PlaySong2();
+        }
+    }
+
+    public void PlaySong()
+    {
+
+        if (last_played == null)
+        {
+            PlaySong1();
+        }
+        else
+        {
+
+            if(last_played == song1_source){
+                PlaySong1();
+            }else if (last_played == song2_source){
+                PlaySong2();
+            }else if (last_played == song3_source){
+                PlaySong3();
+            }
+            else{
+                Debug.Log("nothing");
+            }
+        }
+    }
+    }
