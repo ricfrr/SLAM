@@ -56,10 +56,10 @@ namespace Assets.Code.GameObjects
 
         void Start()
         {
-            this.cameraController.SetPosition(new Vector3(0, 0, -40));
-            this.cameraController.SetRotation(new Vector3(0, 0, 0));
+            //this.cameraController.SetPosition(new Vector3(0, 0, 0));
+            //this.cameraController.SetRotation(new Vector3(0, 0, 0));
             this.geometryShader = Resources.Load<Shader>("GeometryShader");
-
+            this.transform.localPosition = Vector3.zero;
             Init();
 
             capturedPointList = new LinkedList<CapturedPointStruct>();
@@ -129,6 +129,7 @@ namespace Assets.Code.GameObjects
             float deltaY = (maxY - minY) / (float)this.Size.cols;
 
             this.pointsToReach = new Vector3[this.Size.cols * this.Size.rows];
+
 
             for (int r = 0; r < this.Size.cols; r++)
             {

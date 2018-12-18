@@ -91,10 +91,10 @@ namespace Assets.Code.GameObjects
 
         private void makeCapturedPoints(ref GameObject capturedPoints, ref Transform cameraTransform)
         {
-            capturedPoints.name = "Points" + cameraTransform.position.ToString() + cameraTransform.rotation.ToString();
+            capturedPoints.name = "Points" + cameraTransform.position.ToString() + cameraTransform.eulerAngles.ToString();
             capturedPoints.transform.parent = this.transform;
-            capturedPoints.transform.localPosition = cameraTransform.position;
-            capturedPoints.transform.localRotation = cameraTransform.rotation;
+            capturedPoints.transform.position = cameraTransform.position;
+            capturedPoints.transform.rotation = cameraTransform.rotation;
             capturedPoints.AddComponent<MeshFilter>();
             MeshRenderer mr = capturedPoints.AddComponent<MeshRenderer>();
             mr.receiveShadows = false;

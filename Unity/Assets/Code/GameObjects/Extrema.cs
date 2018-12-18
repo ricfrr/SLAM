@@ -19,6 +19,8 @@ namespace Assets.Code.GameObjects
             this.extremaMesh = new Mesh();
             this.isInitaliesed = false;
             this.isExtemaActive = false;
+
+            transform.localPosition = Vector3.zero;
         }
 	
 	    // Update is called once per frame
@@ -26,7 +28,7 @@ namespace Assets.Code.GameObjects
 
             if (this.isExtemaActive)
             {
-                this.DrawExtrema();
+               this.DrawExtrema();
             }
         }
 
@@ -34,6 +36,8 @@ namespace Assets.Code.GameObjects
         {
             this.isExtemaActive = !this.isExtemaActive;
 
+            Debug.Log(transform.position.ToString());
+            
             if (!this.isExtemaActive)
             {
                 this.ClearExtrema();
@@ -44,7 +48,7 @@ namespace Assets.Code.GameObjects
         {
             this.pointsToReach = pointsToReach;
             this.extremaMaterial = extremaMaterial;
-
+            
             this.isInitaliesed = true;
             Debug.Log("Extrema init");
         }
