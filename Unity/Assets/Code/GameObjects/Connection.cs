@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Assets.Code.Connection;
+using System.Collections.Generic;
+using Assets.Code.Structs;
+using NetMQ;
 
 namespace Assets.Code.GameObjects
 {
@@ -12,6 +15,10 @@ namespace Assets.Code.GameObjects
         private string _response;
         // client
         private NetMqListener _netMqListener;
+        // reference
+        public _3dCamera _3Dcamera;
+
+        private int lastCount;
 
         // Use this for initialization
         void Start()
@@ -22,15 +29,21 @@ namespace Assets.Code.GameObjects
             // client
             _netMqListener = new NetMqListener(LisenMessage);
             _netMqListener.Start();
+
+            lastCount = 0;
         }
 
         // Update is called once per frame
         void Update()
         {
             // server
-            var position = transform.position;
-            _response = $"{position.x} {position.y} {position.z}";
-            Connected = _netMqPublisher.Connected;
+                    
+            if (this._3Dcamera.GetCapturedPointSize() > lastCount)
+            {
+                lastCount++;
+                _netMqPublisher.refreshPoint(this._3Dcamera.GetLastCapturedPoints());
+                
+            }
             // client
             _netMqListener.Update();
         }
@@ -41,6 +54,8 @@ namespace Assets.Code.GameObjects
             _netMqPublisher.Stop();
             // client
             _netMqListener.Stop();
+
+            NetMQConfig.Cleanup();
         }
 
         // server
@@ -53,7 +68,7 @@ namespace Assets.Code.GameObjects
         // client
         private void LisenMessage(string message)
         {
-            Debug.Log(message);
+            Debug.Log("recived message: "+message);
             //var splittedStrings = message.Split(' ');
             //if (splittedStrings.Length != 3) return;
             //var x = float.Parse(splittedStrings[0]);

@@ -303,6 +303,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1179671942929260
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4665278787253694}
+  - component: {fileID: 114338352510537306}
+  m_Layer: 0
+  m_Name: Connection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1180356989704302
 GameObject:
   m_ObjectHideFlags: 1
@@ -1519,6 +1535,7 @@ Transform:
   - {fileID: 4689332858979140}
   - {fileID: 4049643664017958}
   - {fileID: 4790549287738694}
+  - {fileID: 4665278787253694}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1668,6 +1685,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4508919687178452}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4665278787253694
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1179671942929260}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4208196907558888}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4689332858979140
 Transform:
@@ -4159,6 +4189,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Mission
+--- !u!114 &114338352510537306
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1179671942929260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06e30533a13a34f48b38d89762024faa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Connected: 0
+  _3Dcamera: {fileID: 114204616786638026}
 --- !u!114 &114348199752882704
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4969,7 +5012,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dafe15eb789fffd4c8c460bf33648e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 0}
+  camera: {fileID: 114355154774976432}
 --- !u!114 &114754270984422456
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6576,7 +6619,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00030657896, y: 0.0013699606}
+  m_AnchoredPosition: {x: 0.00030517578, y: 0.001373291}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224511883475323400

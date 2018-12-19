@@ -331,17 +331,17 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
+    <Reference Include="AsyncIO">
+      <HintPath>D:/UniTn/1st semester/robotics preciption and action/slam project/SLAM/Unity/Assets/AsyncIO/AsyncIO.dll</HintPath>
+    </Reference>
+    <Reference Include="NetMQ">
+      <HintPath>D:/UniTn/1st semester/robotics preciption and action/slam project/SLAM/Unity/Assets/NetMQ/NetMQ.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.Analytics">
       <HintPath>C:/Users/Gábor/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.StandardEvents">
       <HintPath>C:/Users/Gábor/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.standardevents@1.0.13/UnityEngine.StandardEvents.dll</HintPath>
-    </Reference>
-    <Reference Include="NetMQ">
-      <HintPath>D:/UniTn/1st semester/robotics preciption and action/slam project/SLAM/Unity/Assets/NetMQ/NetMQ.dll</HintPath>
-    </Reference>
-    <Reference Include="AsyncIO">
-      <HintPath>D:/UniTn/1st semester/robotics preciption and action/slam project/SLAM/Unity/Assets/AsyncIO/AsyncIO.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

@@ -146,5 +146,15 @@ namespace Assets.Code.GameObjects
             this.extrema.Init(this.pointsToReach, this.materialExtrema);
             this.capturedPoints.Init(this.pointsToReach, this.MaxRange, this.materialActual);
         }
+
+        public Vector3[] GetLastCapturedPoints()
+        {
+            return this.capturedPointList.Last.Value.points;
+        }
+
+        public int GetCapturedPointSize()
+        {
+            return this.capturedPointList.Count;
+        }
     }
 }

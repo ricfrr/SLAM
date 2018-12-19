@@ -61,12 +61,11 @@ namespace Assets.Code.Connection
                 {
                     string frameString;
                     if (!subSocket.TryReceiveFrameString(out frameString)) continue;
-                    Debug.Log(frameString);
+                    // Debug.Log("recv: "+frameString);
                     _messageQueue.Enqueue(frameString);
                 }
                 subSocket.Close();
             }
-            NetMQConfig.Cleanup();
         }
     }
 }

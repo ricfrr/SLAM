@@ -3,18 +3,24 @@ using System.Threading;
 using System.IO;
 using NetMQ;
 using NetMQ.Sockets;
+using Assets.Code.Structs;
+using System.Collections.Generic;
+using UnityEngine;
+using System.Text;
 
 namespace Assets.Code.Connection
 {
     public class NetMqPublisher
     {
         private readonly Thread _listenerWorker;
-        private bool _listenerCancelled;
+        private bool _listenerCancelled, _isSending;
         public delegate string MessageDelegate(string message);
         private readonly MessageDelegate _messageDelegate;
         private readonly Stopwatch _contactWatch;
         private const long ContactThreshold = 1000;
         public bool Connected;
+
+        private Vector3[] toSend;
 
         public NetMqPublisher(MessageDelegate messageDelegate)
         {
@@ -27,6 +33,7 @@ namespace Assets.Code.Connection
         public void Start()
         {
             _listenerCancelled = false;
+            _isSending = false;
             _listenerWorker.Start();
         }
 
@@ -36,40 +43,43 @@ namespace Assets.Code.Connection
             _listenerWorker.Join();
         }
 
+        public void refreshPoint(Vector3[] capturedPoints)
+        {
+            this.toSend = capturedPoints;
+            _isSending = true;
+        }
+
         private void ListenerWork()
         {
             AsyncIO.ForceDotNet.Force();
             using (var server = new PublisherSocket())
             {
                 server.Options.SendHighWatermark = 1000;
-                server.Bind("tcp://127.0.0.1:12347");
+                server.Bind("tcp://localhost:12347");
                 UnityEngine.Debug.Log("connected");
+                StringBuilder sb;
 
                 int i = 0;
                 while (!_listenerCancelled)
                 {
-
-                    //StreamReader streamReader = new StreamReader("Points_30/(3.4, -15.1, -26.9)(0.0, " + i + ".0, 0.0).pcd");
-                    ////this is for skipping the header of pcd and send only points 
-                    //for (int k = 0; k < 11; k++)
-                    //{
-                    //    streamReader.ReadLine();
-                    //}
-
-                    //string message = streamReader.ReadToEnd();
-                    //UnityEngine.Debug.Log("file readed");
-                    //message = i.ToString() + "\n" + message;
-                    server.SendFrame("hello\n");
-                    UnityEngine.Debug.Log("sent " + i);
-                    Thread.Sleep(1000);
-                    i++;
-                    if (i > 10)
+                    if(_isSending)
                     {
-                        _listenerCancelled = true;
+                        sb = new StringBuilder(i.ToString()).Append("\n");
+                        foreach (Vector3 element in this.toSend)
+                        {
+                            sb.Append(element.x).Append(" ").Append(element.y).Append(" ").Append(element.z).Append("\n");
+                            // normal concatenation does NOT work - unity freez
+                            //message +=  + " " + element.y + " " + element.z + "\n";
+                        }
+                        server.SendFrame(sb.ToString());
+                        i++;
+                        UnityEngine.Debug.Log("sent");
+                        _isSending = false;
                     }
+                    Thread.Sleep(1000);
                 }
             }
-            NetMQConfig.Cleanup();
+            
         }
     }
 }
