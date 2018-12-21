@@ -38,6 +38,7 @@ namespace Assets.Code.GameObjects
         [Tooltip("Sensor max distance (m)")]    public float MaxRange;
         [Tooltip("Only for drawing (rgba)")]    public Color ExtremaPointsColor, ActualPointsColor;
         [Tooltip("Only for drawing (m)")]       public float PointDrawingScale;
+        [Tooltip("Seconds (s)")]                public float period;
 
         // features in game objects
         public Extrema extrema;
@@ -51,7 +52,6 @@ namespace Assets.Code.GameObjects
 
         private bool isCaptureing;
         private float nextActionTime;
-        public float period;
 
         private Vector3[] pointsToReach;
         private bool initialized = false;
@@ -69,8 +69,6 @@ namespace Assets.Code.GameObjects
             this.capturedPointList = new LinkedList<CapturedPointStruct>();
 
             this.isCaptureing = false;
-            this.nextActionTime = Time.time;
-            this.period = 1.0f;
         }
 
         void Update()
@@ -82,7 +80,7 @@ namespace Assets.Code.GameObjects
 
             if (this.isCaptureing)
             {
-                if(this.WaitForTime(1.0f))
+                if(this.WaitForTime(this.period))
                 {
                     this.capturedPoints.CapturePoints(this.capturedPointList);
                 }
@@ -145,6 +143,11 @@ namespace Assets.Code.GameObjects
             if (this.FOV.v < 0) Debug.LogError("INVALID INPUT for camera vertical field of view. Actual value is " + this.FOV.v);
             if (this.FOV.h < 0) Debug.LogError("INVALID INPUT for camera horizontal field of view. Actual value is " + this.FOV.h);
 
+            if (this.period <= 0)
+            {
+                this.period = 1.0f;
+                Debug.Log("INVALID time");
+            }
             // change camera
             UnityEngine.Camera.main.fieldOfView = this.FOV.v;
 

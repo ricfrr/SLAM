@@ -3885,6 +3885,7 @@ MonoBehaviour:
   ExtremaPointsColor: {r: 1, g: 0, b: 0, a: 0}
   ActualPointsColor: {r: 0, g: 1, b: 0.027116776, a: 0}
   PointDrawingScale: 3
+  period: 1
   extrema: {fileID: 114900026120835380}
   capturedPoints: {fileID: 114751382567400410}
   exporter: {fileID: 114393021984844832}
