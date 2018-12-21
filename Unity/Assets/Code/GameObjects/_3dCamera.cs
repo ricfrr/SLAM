@@ -49,6 +49,10 @@ namespace Assets.Code.GameObjects
         // captured point in list
         LinkedList<CapturedPointStruct> capturedPointList;
 
+        private bool isCaptureing;
+        private float nextActionTime;
+        public float period;
+
         private Vector3[] pointsToReach;
         private bool initialized = false;
         private Material materialExtrema, materialActual;
@@ -60,16 +64,28 @@ namespace Assets.Code.GameObjects
             this.cameraController.SetRotation(new Vector3(0, 0, 0));
             this.geometryShader = Resources.Load<Shader>("GeometryShader");
 
-            Init();
+            this.Init();
 
-            capturedPointList = new LinkedList<CapturedPointStruct>();
+            this.capturedPointList = new LinkedList<CapturedPointStruct>();
+
+            this.isCaptureing = false;
+            this.nextActionTime = Time.time;
+            this.period = 1.0f;
         }
 
         void Update()
         {
             if (!this.initialized)
             {
-                Init();
+                this.Init();
+            }
+
+            if (this.isCaptureing)
+            {
+                if(this.WaitForTime(1.0f))
+                {
+                    this.capturedPoints.CapturePoints(this.capturedPointList);
+                }
             }
         }
 
@@ -82,13 +98,29 @@ namespace Assets.Code.GameObjects
 
             if (GUI.Button(new Rect(Screen.width - 260, Screen.height - 90, 120, 30), "Capture points"))
             {
-                this.capturedPoints.CapturePoints(this.capturedPointList);
+                this.isCaptureing = !this.isCaptureing;
+
+                if (!this.isCaptureing)
+                {
+                    this.nextActionTime = 0.0f;
+                }
             }
             
             if (GUI.Button(new Rect(Screen.width - 130, Screen.height - 90, 120, 30), "Export"))
             {
                 this.exporter.ExportToFile(this.capturedPointList);
             }
+        }
+
+        private bool WaitForTime(float period)
+        {
+            if (this.nextActionTime == 0.0f || Time.time > this.nextActionTime)
+            {
+                this.nextActionTime = Time.time + period;
+                return true;
+            }
+
+            return false;
         }
 
         public bool IsInitialized() { return this.initialized; }

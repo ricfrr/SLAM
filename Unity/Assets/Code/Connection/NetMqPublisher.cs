@@ -76,7 +76,7 @@ namespace Assets.Code.Connection
                         UnityEngine.Debug.Log("sent");
                         _isSending = false;
                     }
-                    Thread.Sleep(1000);
+                    //Thread.Sleep(1000);
                 }
             }
             
