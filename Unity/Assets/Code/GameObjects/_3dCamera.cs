@@ -38,6 +38,7 @@ namespace Assets.Code.GameObjects
         [Tooltip("Sensor max distance (m)")]    public float MaxRange;
         [Tooltip("Only for drawing (rgba)")]    public Color ExtremaPointsColor, ActualPointsColor;
         [Tooltip("Only for drawing (m)")]       public float PointDrawingScale;
+        [Tooltip("Seconds (s)")]                public float period;
 
         // features in game objects
         public Extrema extrema;
@@ -48,6 +49,9 @@ namespace Assets.Code.GameObjects
 
         // captured point in list
         LinkedList<CapturedPointStruct> capturedPointList;
+
+        private bool isCaptureing;
+        private float nextActionTime;
 
         private Vector3[] pointsToReach;
         private bool initialized = false;
@@ -60,16 +64,26 @@ namespace Assets.Code.GameObjects
             this.cameraController.SetRotation(new Vector3(0, 0, 0));
             this.geometryShader = Resources.Load<Shader>("GeometryShader");
 
-            Init();
+            this.Init();
 
-            capturedPointList = new LinkedList<CapturedPointStruct>();
+            this.capturedPointList = new LinkedList<CapturedPointStruct>();
+
+            this.isCaptureing = false;
         }
 
         void Update()
         {
             if (!this.initialized)
             {
-                Init();
+                this.Init();
+            }
+
+            if (this.isCaptureing)
+            {
+                if(this.WaitForTime(this.period))
+                {
+                    this.capturedPoints.CapturePoints(this.capturedPointList);
+                }
             }
         }
 
@@ -82,13 +96,29 @@ namespace Assets.Code.GameObjects
 
             if (GUI.Button(new Rect(Screen.width - 260, Screen.height - 90, 120, 30), "Capture points"))
             {
-                this.capturedPoints.CapturePoints(this.capturedPointList);
+                this.isCaptureing = !this.isCaptureing;
+
+                if (!this.isCaptureing)
+                {
+                    this.nextActionTime = 0.0f;
+                }
             }
             
             if (GUI.Button(new Rect(Screen.width - 130, Screen.height - 90, 120, 30), "Export"))
             {
                 this.exporter.ExportToFile(this.capturedPointList);
             }
+        }
+
+        private bool WaitForTime(float period)
+        {
+            if (this.nextActionTime == 0.0f || Time.time > this.nextActionTime)
+            {
+                this.nextActionTime = Time.time + period;
+                return true;
+            }
+
+            return false;
         }
 
         public bool IsInitialized() { return this.initialized; }
@@ -113,6 +143,11 @@ namespace Assets.Code.GameObjects
             if (this.FOV.v < 0) Debug.LogError("INVALID INPUT for camera vertical field of view. Actual value is " + this.FOV.v);
             if (this.FOV.h < 0) Debug.LogError("INVALID INPUT for camera horizontal field of view. Actual value is " + this.FOV.h);
 
+            if (this.period <= 0)
+            {
+                this.period = 1.0f;
+                Debug.Log("INVALID time");
+            }
             // change camera
             UnityEngine.Camera.main.fieldOfView = this.FOV.v;
 
