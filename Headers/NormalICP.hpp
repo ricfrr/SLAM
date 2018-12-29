@@ -22,7 +22,9 @@ public:
 
     void addNormal(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud_with_normals);
 
-	
+    pcl::IterativeClosestPointWithNormals<pcl::PointXYZRGBNormal, pcl::PointXYZRGBNormal>::Ptr getICP();
+
+	void resetTransformationMatrix();
 
 private:
     Utilities utilities;

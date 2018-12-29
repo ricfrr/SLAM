@@ -16,6 +16,7 @@
 #include <pcl/filters/voxel_grid.h>
 #include <string>
 #include "PriorityPointCloud.hpp"
+#include "Setting.hpp"
 #include <queue>
 
 class Utilities {
@@ -28,6 +29,8 @@ public:
     std::vector<std::string> split(const std::string &str, const std::string &delim);
 
     PriorityPointCloud fromStringToPriorityPointCloud(const std::string &st);
+
+    Setting* fromStringToSetting(const std::string &st);
 
     void loadFile(const std::string fileName, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
 

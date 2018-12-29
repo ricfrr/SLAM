@@ -22,6 +22,11 @@ public:
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr bruteIcpRegistration (pcl::PointCloud<pcl::PointXYZ>::Ptr source, pcl::PointCloud<pcl::PointXYZ>::Ptr target);
 
+    pcl::IterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ>::Ptr getICP();
+
+    void resetTransformationMatrix();
+
+
 private:
     Eigen::Matrix4f transformation = Eigen::Matrix4f::Identity();
     Utilities utilities;

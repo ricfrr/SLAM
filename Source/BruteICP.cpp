@@ -38,3 +38,12 @@ BruteICP::bruteIcpRegistration(pcl::PointCloud<pcl::PointXYZ>::Ptr source, pcl::
 
     return source;
 }
+
+pcl::IterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ>::Ptr BruteICP::getICP(){
+    return icp;
+}
+
+void BruteICP::resetTransformationMatrix() {
+    this->transformation = Eigen::Matrix4f::Identity();
+}
+

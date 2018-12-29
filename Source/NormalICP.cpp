@@ -61,3 +61,11 @@ NormalICP::normalIcpRegistration(pcl::PointCloud<pcl::PointXYZ>::Ptr source,
 
     return source;
 };
+
+pcl::IterativeClosestPointWithNormals<pcl::PointXYZRGBNormal, pcl::PointXYZRGBNormal>::Ptr NormalICP::getICP(){
+    return icp;
+}
+
+void NormalICP::resetTransformationMatrix() {
+    this->transformation = Eigen::Matrix4f::Identity();
+}

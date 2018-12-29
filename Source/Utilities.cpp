@@ -52,16 +52,6 @@ void Utilities::loadFile(const std::string fileName, pcl::PointCloud<pcl::PointX
             0.0, 0.0, 0.0, 1.0;
     pcl::transformPointCloud(*cloud, *cloud, mirrorX);
 
-    /*
-    pcl::PolygonMesh mesh;
-    if (pcl::io::loadPolygonFile(fileName, mesh) == -1) {
-        PCL_ERROR ("loadFile fail.");
-        return;
-    }
-    pcl::fromPCLPointCloud2<pcl::PointXYZ>(mesh.cloud, *cloud);
-    // remove points having values of nan
-    std::vector<int> index;
-    pcl::removeNaNFromPointCloud(*cloud, *cloud, index);*/
 }
 
 void Utilities::saveFile(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud) {
@@ -150,5 +140,19 @@ void Utilities::transform(pcl::PointCloud<pcl::PointXYZ>::Ptr source){
     double theta = 2.0*M_PI/360.0;
     transform.rotate (Eigen::AngleAxisf (theta, Eigen::Vector3f::UnitY()));
     pcl::transformPointCloud (*source, *source, transform);
+}
+
+Setting* Utilities::fromStringToSetting(const std::string &st) {
+    std::vector<std::string> lines = split(st, "\n");
+    Setting* setting = nullptr;
+    std::string first_param = lines[0];
+    float second_param;
+    if(lines.size()>1){
+        second_param = std::stof(lines[1]);
+        setting = new Setting(first_param,second_param);
+    }else{
+        setting = new Setting(first_param);
+    }
+    return setting;
 }
 
