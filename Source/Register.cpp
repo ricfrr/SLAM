@@ -1,5 +1,5 @@
 #include "../Headers/Register.hpp"
-
+#include "../Headers/Noise.hpp"
 
 pcl::PointCloud<pcl::PointXYZ>::Ptr Register::getRegisteredPoints(){
     return registered;
@@ -48,6 +48,10 @@ void Register::registration() {
                 default:
                     break;
             }
+
+            //Add noise in the intermediate points cloud
+            Noise noise;
+            noise.addNoise(intermediate_points);
             PriorityPointCloud generate_points = PriorityPointCloud(k, intermediate_points);
             k++;
             this->generated_points->push(generate_points);
