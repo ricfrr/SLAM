@@ -28,9 +28,9 @@ public:
 
 
 private:
+    pcl::IterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ>::Ptr icp;
     Eigen::Matrix4f transformation = Eigen::Matrix4f::Identity();
     Utilities utilities;
-    pcl::IterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ>::Ptr icp;
 };
 
 #endif /* BruteICP_hpp */

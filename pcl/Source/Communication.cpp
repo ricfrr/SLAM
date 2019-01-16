@@ -57,7 +57,7 @@ void Communication::sendMessage() {
             memcpy(cloud.data(), message.c_str(), message.length());
             this->publisher->send(cloud);
 
-            std::cout << "sent!" << std::endl;
+            //std::cout << "sent!" << std::endl;
         }
     }
 }

@@ -38,7 +38,8 @@ public:
     pcl::PointCloud<pcl::PointXYZ>::Ptr getRegisteredPoints();
 
     void resetRegisteredPoint();
-
+    int getAlgorithm();
+    void setAlgorithm(int _alg);
 private:
     int alg = 0;
     std::priority_queue<PriorityPointCloud, std::vector<PriorityPointCloud>, PriorityCloudComparator> *priority_points = nullptr;

@@ -150,9 +150,12 @@ Setting* Utilities::fromStringToSetting(const std::string &st) {
     if(lines.size()>1){
         second_param = std::stof(lines[1]);
         setting = new Setting(first_param,second_param);
+        //std::cout << setting->getMessage()<<" "<<setting->getValue()<<std::endl;
     }else{
         setting = new Setting(first_param);
+        //std::cout << setting->getMessage()<<std::endl;
     }
+
     return setting;
 }
 

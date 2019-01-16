@@ -52,12 +52,12 @@ NormalICP::normalIcpRegistration(pcl::PointCloud<pcl::PointXYZ>::Ptr source,
     transformation *= icp->getFinalTransformation();
     if (icp->hasConverged()) {
         pcl::transformPointCloud(*source, *source, transformation);
-        std::cout << "score : " << icp->getFitnessScore() << std::endl;
+        //std::cout << "score : " << icp->getFitnessScore() << std::endl;
     } else {
         std::cerr << "DIVERGED" << std::endl;
     }
-    std::cout << "local " << std::endl << icp->getFinalTransformation() << std::endl;
-    std::cout << "global " << std::endl << transformation << std::endl;
+    //std::cout << "local " << std::endl << icp->getFinalTransformation() << std::endl;
+    //std::cout << "global " << std::endl << transformation << std::endl;
 
     return source;
 };

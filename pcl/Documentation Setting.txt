@@ -1,0 +1,18 @@
+Msg
+
+RESET -> reset the point cloud
+------------------------------------------
+
+ALGORITHM
+1            -> change the algotithm 0: brute 1: normals
+
+-----------------------------------------
+
+ITERATION
+num_iteriations -> change the number of the iterations using the num iterations
+
+----------------------------------------------
+
+CORRESPONDENCE
+max_correspondence -> set the max correspondence using the max_correspondence value 
+                      works only for brute ICP

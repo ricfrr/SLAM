@@ -30,7 +30,7 @@ void Register::registration() {
 
     while (true) {
         if (!priority_points->empty()) {
-            std::cout<<"REGISTRATION LOOP "<<priority_points->size()<<std::endl;
+            //std::cout<<"REGISTRATION LOOP "<<priority_points->size()<<std::endl;
 
             pr = priority_points->top();
             source = pr.getPointCloud();
@@ -102,4 +102,12 @@ void Register::resetRegisteredPoint() {
     this->registered =tm_registered;
     bruteICP.resetTransformationMatrix();
     normalICP.resetTransformationMatrix();
+}
+
+int Register::getAlgorithm() {
+    return this->alg;
+}
+
+void Register::setAlgorithm(int _alg) {
+    this->alg = _alg;
 }
