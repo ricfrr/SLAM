@@ -67,7 +67,7 @@ namespace Assets.Code.Connection
                         sb = new StringBuilder(i.ToString()).Append("\n");
                         for(int c=0; c < this.toSend.Item1.Length; c++)
                         {
-                            sb.Append(toSend.Item1[c].x).Append(" ").Append(toSend.Item1[c].y).Append(" ").Append(toSend.Item1[c].z).Append(" ").Append(toSend.Item2[c].x).Append(" ").Append(toSend.Item2[c].y).Append(" ").Append(toSend.Item2[c].z).Append(" ").Append(toSend.Item2[c].w).Append("\n");
+                            sb.Append(toSend.Item1[c].x).Append(" ").Append(toSend.Item1[c].y).Append(" ").Append(toSend.Item1[c].z).Append(" ").Append(toSend.Item2[c].x).Append(" ").Append(toSend.Item2[c].y).Append(" ").Append(toSend.Item2[c].z).Append("\n");
                             // normal concatenation does NOT work - unity freez
                             //message +=  + " " + element.y + " " + element.z + "\n";
                         }
