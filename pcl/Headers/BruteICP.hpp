@@ -20,9 +20,9 @@ public:
 
     ~BruteICP();
 
-    pcl::PointCloud<pcl::PointXYZ>::Ptr bruteIcpRegistration (pcl::PointCloud<pcl::PointXYZ>::Ptr source, pcl::PointCloud<pcl::PointXYZ>::Ptr target);
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr bruteIcpRegistration (pcl::PointCloud<pcl::PointXYZRGB>::Ptr source, pcl::PointCloud<pcl::PointXYZRGB>::Ptr target);
 
-    pcl::IterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ>::Ptr getICP();
+    pcl::IterativeClosestPoint<pcl::PointXYZRGB, pcl::PointXYZRGB>::Ptr getICP();
 
     void resetTransformationMatrix();
 
@@ -30,7 +30,7 @@ public:
 
 
 private:
-    pcl::IterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ>::Ptr icp;
+    pcl::IterativeClosestPoint<pcl::PointXYZRGB, pcl::PointXYZRGB>::Ptr icp;
     Eigen::Matrix4f* transformation;
     Utilities utilities;
 };

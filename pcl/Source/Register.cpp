@@ -1,18 +1,18 @@
 #include "../Headers/Register.hpp"
 
 
-pcl::PointCloud<pcl::PointXYZ>::Ptr Register::getRegisteredPoints(){
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr Register::getRegisteredPoints(){
     return registered;
 }
 
 void Register::registration() {
     std::cout<<"REGISTRATION"<<std::endl;
-    pcl::PointCloud<pcl::PointXYZ>::Ptr source(new pcl::PointCloud<pcl::PointXYZ>);
-    pcl::PointCloud<pcl::PointXYZ>::Ptr target(new pcl::PointCloud<pcl::PointXYZ>);
-    pcl::PointCloud<pcl::PointXYZ>::Ptr buffer(new pcl::PointCloud<pcl::PointXYZ>);
-    pcl::PointCloud<pcl::PointXYZ>::Ptr tm_registered(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr source(new pcl::PointCloud<pcl::PointXYZRGB>);
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr target(new pcl::PointCloud<pcl::PointXYZRGB>);
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr buffer(new pcl::PointCloud<pcl::PointXYZRGB>);
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr tm_registered(new pcl::PointCloud<pcl::PointXYZRGB>);
     this->registered = tm_registered;
-    pcl::PointCloud<pcl::PointXYZ>::Ptr intermediate_points(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr intermediate_points(new pcl::PointCloud<pcl::PointXYZRGB>);
 
 
     while (priority_points->size() < 2) {
@@ -102,9 +102,9 @@ NormalICP *Register::getNormalICP() {
 }
 
 void Register::resetRegisteredPoint() {
-    pcl::PointCloud<pcl::PointXYZ>::Ptr tm_registered(new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr tm_registered(new pcl::PointCloud<pcl::PointXYZRGB>);
     this->registered =tm_registered;
-    this->transformation = Eigen::Matrix4f::Identity();//TODO check this value
+    this->transformation = Eigen::Matrix4f::Identity();
     bruteICP.setTransformationMatrix(&this->transformation);
     normalICP.setTransformationMatrix(&this->transformation);
 }

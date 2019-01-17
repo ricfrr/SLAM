@@ -1,7 +1,7 @@
 
 #include "../Headers/PriorityPointCloud.hpp"
 
-PriorityPointCloud::PriorityPointCloud(int priority, pcl::PointCloud<pcl::PointXYZ>::Ptr source) {
+PriorityPointCloud::PriorityPointCloud(int priority, pcl::PointCloud<pcl::PointXYZRGB>::Ptr source) {
     this->priority = priority;
     this->cloud = source;
 };
@@ -14,6 +14,6 @@ int PriorityPointCloud::getPriority() {
     return this->priority;
 };
 
-pcl::PointCloud<pcl::PointXYZ>::Ptr PriorityPointCloud::getPointCloud() {
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr PriorityPointCloud::getPointCloud() {
     return this->cloud;
 }

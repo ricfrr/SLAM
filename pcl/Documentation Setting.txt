@@ -16,3 +16,12 @@ num_iteriations -> change the number of the iterations using the num iterations
 CORRESPONDENCE
 max_correspondence -> set the max correspondence using the max_correspondence value 
                       works only for brute ICP
+
+
+-------------------
+EUCLIDEAN_FITNESS
+number
+
+-----------------
+TRANSFORMATION_EPSILON
+number

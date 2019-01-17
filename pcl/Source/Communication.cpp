@@ -34,7 +34,7 @@ void Communication::establishPublisherCommunication() {
 }
 
 std::string generateMessage(PriorityPointCloud &cloud) {
-    pcl::PointCloud<pcl::PointXYZ>::Ptr tmp_cloud = cloud.getPointCloud();
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr tmp_cloud = cloud.getPointCloud();
     int priority = cloud.getPriority();
     std::string message = std::to_string(priority) + "\n";
 

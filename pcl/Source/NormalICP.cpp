@@ -14,13 +14,13 @@ NormalICP::~NormalICP() {
 };
 
 
-void NormalICP::addNormal(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
+void NormalICP::addNormal(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud,
                           pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud_with_normals) {
 
     pcl::PointCloud<pcl::Normal>::Ptr normals(new pcl::PointCloud<pcl::Normal>);
-    pcl::search::KdTree<pcl::PointXYZ>::Ptr searchTree(new pcl::search::KdTree<pcl::PointXYZ>);
+    pcl::search::KdTree<pcl::PointXYZRGB>::Ptr searchTree(new pcl::search::KdTree<pcl::PointXYZRGB>);
     searchTree->setInputCloud(cloud);
-    pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> normalEstimator;
+    pcl::NormalEstimation<pcl::PointXYZRGB, pcl::Normal> normalEstimator;
     normalEstimator.setInputCloud(cloud);
     normalEstimator.setSearchMethod(searchTree);
     normalEstimator.setKSearch(20);
@@ -29,9 +29,9 @@ void NormalICP::addNormal(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud,
 
 }
 
-pcl::PointCloud<pcl::PointXYZ>::Ptr
-NormalICP::normalIcpRegistration(pcl::PointCloud<pcl::PointXYZ>::Ptr source,
-                                 pcl::PointCloud<pcl::PointXYZ>::Ptr target) {
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr
+NormalICP::normalIcpRegistration(pcl::PointCloud<pcl::PointXYZRGB>::Ptr source,
+                                 pcl::PointCloud<pcl::PointXYZRGB>::Ptr target) {
 
     utilities.downScale(source);
 	utilities.downScale(target);

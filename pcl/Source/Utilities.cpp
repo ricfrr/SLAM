@@ -24,17 +24,26 @@ std::vector<std::string> Utilities::split(const std::string &str, const std::str
 }
 
 
+
 PriorityPointCloud Utilities::fromStringToPriorityPointCloud(const std::string &st) {
 
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZRGB>);
     std::vector<std::string> lines = split(st, "\n");
     // priority of the point cloud
     int priority = std::stoi(lines[0]);
     //generate the point cloud
     for (int i = 1; i < lines.size(); i++) {
         std::vector<std::string> point = split(lines[i]," ");
-        pcl::PointXYZ t_point = pcl::PointXYZ(std::stof(point[0]),std::stof(point[1]),std::stof(point[2]));
-        cloud->push_back(t_point);
+        pcl::PointXYZRGB point_xyz_rgb = pcl::PointXYZRGB(); //point xyzrgb
+        point_xyz_rgb.x = std::stof(point[0]);
+        point_xyz_rgb.y= std::stof(point[1]);
+        point_xyz_rgb.z = std::stof(point[2]);
+        point_xyz_rgb.r = std::stof(point[3]);
+        point_xyz_rgb.g = std::stof(point[4]);
+        point_xyz_rgb.b = std::stof(point[5]);
+
+        //pcl::PointXYZRGB t_point = pcl::PointXYZRGB(std::stof(point[0]),std::stof(point[1]),std::stof(point[2]));
+        cloud->push_back(point_xyz_rgb);
     }
     //generate the priority point cloud
     PriorityPointCloud priorityPointCloud = PriorityPointCloud(priority,cloud);
@@ -43,8 +52,8 @@ PriorityPointCloud Utilities::fromStringToPriorityPointCloud(const std::string &
 }
 
 
-void Utilities::loadFile(const std::string fileName, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
-    pcl::io::loadPCDFile<pcl::PointXYZ> (fileName, *cloud);
+void Utilities::loadFile(const std::string fileName, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud) {
+    pcl::io::loadPCDFile<pcl::PointXYZRGB> (fileName, *cloud);
     Eigen::Matrix4f mirrorX; // Mirror over x-axis. Unity is left-handed, whilst PCL is right-handed
     mirrorX << -1.0, 0.0, 0.0, 0.0,
             0.0, 1.0, 0.0, 0.0,
@@ -54,7 +63,7 @@ void Utilities::loadFile(const std::string fileName, pcl::PointCloud<pcl::PointX
 
 }
 
-void Utilities::saveFile(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud) {
+void Utilities::saveFile(pcl::PointCloud<pcl::PointXYZRGB>::Ptr &cloud) {
     pcl::io::savePCDFileASCII("../final_cloud.pcd", *cloud);
 
 }
@@ -64,13 +73,13 @@ void Utilities::saveFile(pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr &cloud) {
 
 }
 
-void Utilities::showCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
+void Utilities::showCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud) {
 
     boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer(new pcl::visualization::PCLVisualizer("3D Viewer"));
     viewer->setBackgroundColor(0, 0, 0);
 
-    pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> final_color(cloud, 0, 255, 0);
-    viewer->addPointCloud<pcl::PointXYZ>(cloud, final_color, "source");
+    pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZRGB> final_color(cloud, 0, 255, 0);
+    viewer->addPointCloud<pcl::PointXYZRGB>(cloud, final_color, "source");
     viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "source");
     // orthographic (parallel) projection; same with pressing key 'o'
     viewer->getRenderWindow()->GetRenderers()->GetFirstRenderer()->GetActiveCamera()->SetParallelProjection(1);
@@ -96,14 +105,14 @@ void Utilities::showCloud(pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud) {
 
 };
 
-void Utilities::refreshShowCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
-    pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> cloud_color(cloud, 0, 255, 0);
+void Utilities::refreshShowCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud) {
+    pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZRGB> cloud_color(cloud, 0, 255, 0);
     viewer->updatePointCloud(cloud, cloud_color, "source");
     viewer->spinOnce();
 };
 
-/*void Utilities::refreshShowCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
-    pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> cloud_color(cloud, 0, 255, 0);
+/*void Utilities::refreshShowCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud) {
+    pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZRGB> cloud_color(cloud, 0, 255, 0);
     viewer->updatePointCloud(cloud, cloud_color, "source");
     viewer->spinOnce();
 };*/
@@ -122,7 +131,7 @@ void Utilities::downScale(pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud) {
     sor_normal.filter(*cloud);
 };
 
-void Utilities::downScale(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
+void Utilities::downScale(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud) {
     sor.setInputCloud(cloud);
     sor.setLeafSize(1.0f, 1.0f, 1.0f);
     sor.filter(*cloud);
@@ -134,7 +143,7 @@ void Utilities::continueShowCloud() {
     }
 }
 
-void Utilities::transform(pcl::PointCloud<pcl::PointXYZ>::Ptr source){
+void Utilities::transform(pcl::PointCloud<pcl::PointXYZRGB>::Ptr source){
     Eigen::Affine3f transform = Eigen::Affine3f::Identity();
     transform.translation() << 0.0, 0.0, 0.0;
     double theta = 2.0*M_PI/360.0;

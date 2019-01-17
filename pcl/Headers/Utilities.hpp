@@ -10,6 +10,7 @@
 #include <pcl/filters/filter_indices.h>
 #include <pcl/common/transforms.h>
 #include <pcl/features/normal_3d.h>
+#include <pcl/keypoints/sift_keypoint.h>
 #include <vtkRenderWindow.h>
 #include <vtkRendererCollection.h>
 #include <vtkCamera.h>
@@ -32,32 +33,32 @@ public:
 
     Setting* fromStringToSetting(const std::string &st);
 
-    void loadFile(const std::string fileName, pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
+    void loadFile(const std::string fileName, pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
 
-    void saveFile(pcl::PointCloud<pcl::PointXYZ>::Ptr &cloud);
+    void saveFile(pcl::PointCloud<pcl::PointXYZRGB>::Ptr &cloud);
 
     void saveFile(pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr &cloud);
 
-    void showCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
+    void showCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
 
     void showCloud(pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud);
 
-    void refreshShowCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
+    void refreshShowCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
 
     void refreshShowCloud(pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud);
 
-    void downScale(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
+    void downScale(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
 
     void downScale(pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr cloud);
 
 
-    void transform(pcl::PointCloud<pcl::PointXYZ>::Ptr source);
+    void transform(pcl::PointCloud<pcl::PointXYZRGB>::Ptr source);
 
     void continueShowCloud();
 
 private:
     boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer;
-    pcl::VoxelGrid<pcl::PointXYZ> sor;
+    pcl::VoxelGrid<pcl::PointXYZRGB> sor;
     pcl::VoxelGrid<pcl::PointXYZRGBNormal> sor_normal;
 
 };

@@ -35,7 +35,7 @@ public:
 
     BruteICP * getBruteICP();
     NormalICP* getNormalICP();
-    pcl::PointCloud<pcl::PointXYZ>::Ptr getRegisteredPoints();
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr getRegisteredPoints();
 
     void resetRegisteredPoint();
     int getAlgorithm();
@@ -45,7 +45,7 @@ private:
     std::priority_queue<PriorityPointCloud, std::vector<PriorityPointCloud>, PriorityCloudComparator> *priority_points = nullptr;
     std::priority_queue<PriorityPointCloud, std::vector<PriorityPointCloud>, PriorityCloudComparator> *generated_points = nullptr;
 
-    pcl::PointCloud<pcl::PointXYZ>::Ptr registered;
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr registered;
 
     Eigen::Matrix4f transformation = Eigen::Matrix4f::Identity();
 

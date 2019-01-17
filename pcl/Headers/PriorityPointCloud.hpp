@@ -14,17 +14,17 @@ class PriorityPointCloud {
 public:
     PriorityPointCloud();
 
-    PriorityPointCloud(int priority, pcl::PointCloud<pcl::PointXYZ>::Ptr source);
+    PriorityPointCloud(int priority, pcl::PointCloud<pcl::PointXYZRGB>::Ptr source);
 
     ~PriorityPointCloud();
 
-    pcl::PointCloud<pcl::PointXYZ>::Ptr getPointCloud();
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr getPointCloud();
 
     int getPriority();
 
     int priority;
 private:
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud;
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud;
 
 };
 
