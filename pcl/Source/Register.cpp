@@ -72,12 +72,17 @@ Register::Register(int alg,
     this->generated_points = generated_points;
     this->priority_points = priority_points;
     this->alg = alg;
+    this->normalICP.setTransformationMatrix(&this->transformation);
+    this->bruteICP.setTransformationMatrix(&this->transformation);
+
 }
 Register::Register(std::priority_queue<PriorityPointCloud, std::vector<PriorityPointCloud>, PriorityCloudComparator> *priority_points,
                    std::priority_queue<PriorityPointCloud, std::vector<PriorityPointCloud>, PriorityCloudComparator> *generated_points) {
     this->generated_points = generated_points;
     this->priority_points = priority_points;
     this->alg = 1;
+    this->normalICP.setTransformationMatrix(&this->transformation);
+    this->bruteICP.setTransformationMatrix(&this->transformation);
     std::cout<<"INITIALIZATION REGISTER"<<std::endl;
 }
 
@@ -100,8 +105,9 @@ NormalICP *Register::getNormalICP() {
 void Register::resetRegisteredPoint() {
     pcl::PointCloud<pcl::PointXYZ>::Ptr tm_registered(new pcl::PointCloud<pcl::PointXYZ>);
     this->registered =tm_registered;
-    bruteICP.resetTransformationMatrix();
-    normalICP.resetTransformationMatrix();
+    this->transformation = Eigen::Matrix4f::Identity();//TODO check this value
+    bruteICP.setTransformationMatrix(&this->transformation);
+    normalICP.setTransformationMatrix(&this->transformation);
 }
 
 int Register::getAlgorithm() {

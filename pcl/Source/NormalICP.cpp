@@ -49,9 +49,9 @@ NormalICP::normalIcpRegistration(pcl::PointCloud<pcl::PointXYZ>::Ptr source,
     icp->setInputTarget(cloud_target_normals);
     icp->align(*cloud_source_normals);
 
-    transformation *= icp->getFinalTransformation();
+    *transformation *= icp->getFinalTransformation();
     if (icp->hasConverged()) {
-        pcl::transformPointCloud(*source, *source, transformation);
+        pcl::transformPointCloud(*source, *source, *transformation);
         //std::cout << "score : " << icp->getFitnessScore() << std::endl;
     } else {
         std::cerr << "DIVERGED" << std::endl;
@@ -67,5 +67,9 @@ pcl::IterativeClosestPointWithNormals<pcl::PointXYZRGBNormal, pcl::PointXYZRGBNo
 }
 
 void NormalICP::resetTransformationMatrix() {
-    this->transformation = Eigen::Matrix4f::Identity();
+    //this->transformation = Eigen::Matrix4f::Identity();
+}
+
+void NormalICP::setTransformationMatrix(Eigen::Matrix4f * _transformation) {
+    this->transformation = _transformation;
 }

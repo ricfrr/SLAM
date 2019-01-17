@@ -26,9 +26,9 @@ BruteICP::bruteIcpRegistration(pcl::PointCloud<pcl::PointXYZ>::Ptr source, pcl::
 
     icp->align(*source_trans);
 
-    transformation *= icp->getFinalTransformation();
+    *transformation *= icp->getFinalTransformation();
     if (icp->hasConverged()) {
-        pcl::transformPointCloud(*source, *source, transformation);
+        pcl::transformPointCloud(*source, *source, *transformation);
         //std::cout << "score : " << icp->getFitnessScore() << std::endl;
     } else {
         std::cerr << "DIVERGED" << std::endl;
@@ -44,6 +44,10 @@ pcl::IterativeClosestPoint<pcl::PointXYZ, pcl::PointXYZ>::Ptr BruteICP::getICP()
 }
 
 void BruteICP::resetTransformationMatrix() {
-    this->transformation = Eigen::Matrix4f::Identity();
+    //this->transformation = Eigen::Matrix4f::Identity();
+}
+
+void BruteICP::setTransformationMatrix(Eigen::Matrix4f * _transformation){
+    this->transformation = _transformation;
 }
 

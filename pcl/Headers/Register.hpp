@@ -47,6 +47,9 @@ private:
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr registered;
 
+    Eigen::Matrix4f transformation = Eigen::Matrix4f::Identity();
+
+
     BruteICP bruteICP = BruteICP();
     NormalICP normalICP = NormalICP();
     Utilities utilities;

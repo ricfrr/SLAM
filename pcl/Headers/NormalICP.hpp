@@ -26,9 +26,11 @@ public:
 
 	void resetTransformationMatrix();
 
+	void setTransformationMatrix(Eigen::Matrix4f * _transformation);
+
 private:
     Utilities utilities;
-    Eigen::Matrix4f transformation = Eigen::Matrix4f::Identity();
+    Eigen::Matrix4f* transformation;
 	
 	pcl::IterativeClosestPointWithNormals<pcl::PointXYZRGBNormal, pcl::PointXYZRGBNormal>::Ptr icp;
 };
