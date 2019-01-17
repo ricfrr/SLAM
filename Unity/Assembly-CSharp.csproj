@@ -64,12 +64,12 @@
     <Compile Include="Assets\Code\B.cs" />
     <Compile Include="Assets\Code\Connection\NetMqListener.cs" />
     <Compile Include="Assets\Code\Connection\NetMqPublisher.cs" />
+    <Compile Include="Assets\Code\Connection\NetMqSendParams.cs" />
     <Compile Include="Assets\Code\Controllers\CameraController.cs" />
     <Compile Include="Assets\Code\GameObjects\_3dCamera.cs" />
     <Compile Include="Assets\Code\GameObjects\Camera.cs" />
     <Compile Include="Assets\Code\GameObjects\CapturedPoints.cs" />
     <Compile Include="Assets\Code\GameObjects\Connection.cs" />
-    <Compile Include="Assets\Code\GameObjects\Exporter.cs" />
     <Compile Include="Assets\Code\GameObjects\Extrema.cs" />
     <Compile Include="Assets\Code\GameObjects\Inporter.cs" />
     <Compile Include="Assets\Code\GameObjects\LoadedObject.cs" />
