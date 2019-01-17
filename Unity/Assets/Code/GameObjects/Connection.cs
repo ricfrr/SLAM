@@ -9,13 +9,10 @@ namespace Assets.Code.GameObjects
 {
     public class Connection : MonoBehaviour
     {
-        // send points
-        //public bool Connected;
+        // server
+        public bool Connected;
         private NetMqPublisher _netMqPublisher;
-        private string _publisherresponse;
-        // send params
-        private NetMqSendParams _netMqSendParams;
-        private string _paramsresponse;
+        private string _response;
         // client
         private NetMqListener _netMqListener;
         // reference
@@ -26,12 +23,9 @@ namespace Assets.Code.GameObjects
         // Use this for initialization
         void Start()
         {
-            // send points
+            // server
             _netMqPublisher = new NetMqPublisher(PublisMessage);
             _netMqPublisher.Start();
-            // send params
-            _netMqSendParams = new NetMqSendParams(Publisparams);
-            _netMqSendParams.Start();
             // client
             _netMqListener = new NetMqListener(LisenMessage);
             _netMqListener.Start();
@@ -42,57 +36,34 @@ namespace Assets.Code.GameObjects
         // Update is called once per frame
         void Update()
         {
-            // send points
-            if (this._3Dcamera.GetLastCapturedPoints() != null)
+            // server
+                    
+            if (this._3Dcamera.GetCapturedPointSize() > lastCount)
             {
                 lastCount++;
                 _netMqPublisher.refreshPoint(this._3Dcamera.GetLastCapturedPoints() , this._3Dcamera.GetLastCapturedColors());
 
 
             }
-            //// send params
-            //if (this._3Dcamera.GetLastCapturedPoints() != null)
-            //{
-
-            //    _netMqSendParams.pharamToSend("");
-
-            //}
             // client
             _netMqListener.Update();
         }
 
-        private void OnGUI()
-        {
-            if (GUI.Button(new Rect(Screen.width - 130, Screen.height - 90, 120, 30), "Send pharam"))
-            {
-                _netMqSendParams.pharamToSend("ALGORITHM\n1");
-            }
-        }
-
         private void OnDestroy()
         {
-            // send points
+            // server
             _netMqPublisher.Stop();
-            // send pharam
-            _netMqSendParams.Stop();
             // client
             _netMqListener.Stop();
 
             NetMQConfig.Cleanup();
         }
 
-        // send points
+        // server
         private string PublisMessage(string message)
         {
             // Not on main thread
-            return _publisherresponse;
-        }
-
-        // send params
-        private string Publisparams(string message)
-        {
-            // Not on main thread
-            return _paramsresponse;
+            return _response;
         }
 
         // client

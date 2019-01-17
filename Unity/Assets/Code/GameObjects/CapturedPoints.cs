@@ -16,7 +16,6 @@ namespace Assets.Code.GameObjects
         private float maxRange;
         private Material capturePointsMaterial;
         private Vector4[] colors;
-        private bool capture = false;
 
         public void Init(Vector3[] pointsToReach, float maxRange, Material capturePointsMaterial)
         {
@@ -27,9 +26,9 @@ namespace Assets.Code.GameObjects
             Debug.Log("CapturedPoints init");
         }
 
-        public void CapturePoints(CapturedPointStruct lastCapturedPointsHolder)
+        public void CapturePoints(LinkedList<CapturedPointStruct> capturedPointList)
         {
-            this.DrawLastCapturedPoints(this.CalcPointCloud(), lastCapturedPointsHolder);
+            this.DrawLastCapturedPoints(this.CalcPointCloud(), capturedPointList);
         }
 
         private Vector3[] CalcPointCloud()
@@ -56,6 +55,11 @@ namespace Assets.Code.GameObjects
                     pixelUV.y *= tex.height;
                     Color col = tex.GetPixel((int) pixelUV.x, (int) pixelUV.y);
                     colors[i] = col;
+                    if(colors[i].x < 0.1 && colors[i].y < 0.1 && colors[i].z < 0.1)
+                    {
+                        pts[i] = new Vector3(0, 0, 0);
+                        colors[i] = Color.black;
+                    }
                     if (pts[i].magnitude > this.maxRange)
                     {
                         pts[i] = new Vector3(0, 0, 0);
@@ -71,7 +75,7 @@ namespace Assets.Code.GameObjects
             return pts;
         }
 
-        private void DrawLastCapturedPoints(Vector3[] points, CapturedPointStruct lastCapturedPointsHolder)
+        private void DrawLastCapturedPoints(Vector3[] points, LinkedList<CapturedPointStruct> capturedPointList)
         {
             Transform cameraTransform = this.camera.transform;
             string filename = cameraTransform.position.ToString() + cameraTransform.eulerAngles.ToString();
@@ -81,7 +85,7 @@ namespace Assets.Code.GameObjects
 
             Mesh pointMesh = new Mesh();
 
-            int max = 5000;
+            int max = 60000;
             Vector3[] vertices = new Vector3[max];
             int[] indices = new int[max];
             for (int i = 0; i < max; i++)
@@ -98,7 +102,7 @@ namespace Assets.Code.GameObjects
             capturedPoints.GetComponent<MeshFilter>().mesh = pointMesh;
             capturedPoints.GetComponent<MeshRenderer>().material = this.capturePointsMaterial;
 
-            lastCapturedPointsHolder = new CapturedPointStruct(vertices, colors);
+            capturedPointList.AddLast(new CapturedPointStruct(vertices, filename, colors));
         }
 
         private void makeCapturedPoints(ref GameObject capturedPoints, ref Transform cameraTransform)
@@ -112,8 +116,6 @@ namespace Assets.Code.GameObjects
             mr.receiveShadows = false;
             mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         }
-
-
     }
 
 }

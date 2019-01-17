@@ -43,11 +43,12 @@ namespace Assets.Code.GameObjects
         // features in game objects
         public Extrema extrema;
         public CapturedPoints capturedPoints;
+        public Exporter exporter;
         // camera controller
         public CameraController cameraController;
 
-        // last captured point cloud
-        private CapturedPointStruct ladstCapturedPoints;
+        // captured point in list
+        LinkedList<CapturedPointStruct> capturedPointList;
 
         private bool isCaptureing;
         private float nextActionTime;
@@ -59,11 +60,13 @@ namespace Assets.Code.GameObjects
 
         void Start()
         {
-            this.cameraController.SetPosition(new Vector3(0, 0, 0));
+            this.cameraController.SetPosition(new Vector3(0, 0, -40));
             this.cameraController.SetRotation(new Vector3(0, 0, 0));
             this.geometryShader = Resources.Load<Shader>("GeometryShader");
 
             this.Init();
+
+            this.capturedPointList = new LinkedList<CapturedPointStruct>();
 
             this.isCaptureing = false;
         }
@@ -79,7 +82,7 @@ namespace Assets.Code.GameObjects
             {
                 if(this.WaitForTime(this.period))
                 {
-                    this.capturedPoints.CapturePoints(this.ladstCapturedPoints);
+                    this.capturedPoints.CapturePoints(this.capturedPointList);
                 }
             }
         }
@@ -99,6 +102,11 @@ namespace Assets.Code.GameObjects
                 {
                     this.nextActionTime = 0.0f;
                 }
+            }
+            
+            if (GUI.Button(new Rect(Screen.width - 130, Screen.height - 90, 120, 30), "Export"))
+            {
+                this.exporter.ExportToFile(this.capturedPointList);
             }
         }
 
@@ -176,17 +184,17 @@ namespace Assets.Code.GameObjects
 
         public Vector3[] GetLastCapturedPoints()
         {
-            return this.ladstCapturedPoints.points;
+            return this.capturedPointList.Last.Value.points;
         }
 
         public Vector4[] GetLastCapturedColors()
         {
-            return this.ladstCapturedPoints.colors;
+            return this.capturedPointList.Last.Value.colors;
         }
 
-        //public int GetCapturedPointSize()
-        //{
-        //    return this.capturedPointList.Count;
-        //}
+        public int GetCapturedPointSize()
+        {
+            return this.capturedPointList.Count;
+        }
     }
 }

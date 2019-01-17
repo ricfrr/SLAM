@@ -16,8 +16,7 @@ public class Spinner : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         velocity = GameObject.Find("ScannerVelocitySlider").GetComponent<Slider>().value;
-        angle = 10;
- 
+        angle = 10; 
  
 	}
 

@@ -14,6 +14,7 @@
 #include "NormalICP.hpp"
 #include "PriorityPointCloud.hpp"
 #include "PriorityCloudComparator.hpp"
+#include "Noise.hpp"
 
 
 class Register {
@@ -49,7 +50,7 @@ private:
 
     Eigen::Matrix4f transformation = Eigen::Matrix4f::Identity();
 
-
+    Noise noise = Noise();
     BruteICP bruteICP = BruteICP();
     NormalICP normalICP = NormalICP();
     Utilities utilities;

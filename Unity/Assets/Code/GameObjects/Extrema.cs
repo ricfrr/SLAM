@@ -52,7 +52,7 @@ namespace Assets.Code.GameObjects
         private void DrawExtrema()
         {
 
-            int max = 5000;
+            int max = 30000;
             Vector3[] vertices = new Vector3[max];
             int[] indices = new int[max];
             for (int i = 0; i < max; i++)
