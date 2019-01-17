@@ -13,9 +13,9 @@ namespace Assets.Code.GameObjects
         //public bool Connected;
         private NetMqPublisher _netMqPublisher;
         private string _publisherresponse;
-        // send pharams
+        // send params
         private NetMqSendParams _netMqSendParams;
-        private string _pharamsresponse;
+        private string _paramsresponse;
         // client
         private NetMqListener _netMqListener;
         // reference
@@ -29,8 +29,8 @@ namespace Assets.Code.GameObjects
             // send points
             _netMqPublisher = new NetMqPublisher(PublisMessage);
             _netMqPublisher.Start();
-            // send pharams
-            _netMqSendParams = new NetMqSendParams(PublisPharams);
+            // send params
+            _netMqSendParams = new NetMqSendParams(Publisparams);
             _netMqSendParams.Start();
             // client
             _netMqListener = new NetMqListener(LisenMessage);
@@ -50,7 +50,7 @@ namespace Assets.Code.GameObjects
 
 
             }
-            //// send pharams
+            //// send params
             //if (this._3Dcamera.GetLastCapturedPoints() != null)
             //{
 
@@ -88,11 +88,11 @@ namespace Assets.Code.GameObjects
             return _publisherresponse;
         }
 
-        // send pharams
-        private string PublisPharams(string message)
+        // send params
+        private string Publisparams(string message)
         {
             // Not on main thread
-            return _pharamsresponse;
+            return _paramsresponse;
         }
 
         // client

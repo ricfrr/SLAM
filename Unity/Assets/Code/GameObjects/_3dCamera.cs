@@ -47,7 +47,7 @@ namespace Assets.Code.GameObjects
         public CameraController cameraController;
 
         // last captured point cloud
-        private Vector3[] ladstCapturedPoints;
+        private CapturedPointStruct ladstCapturedPoints;
 
         private bool isCaptureing;
         private float nextActionTime;
@@ -176,7 +176,12 @@ namespace Assets.Code.GameObjects
 
         public Vector3[] GetLastCapturedPoints()
         {
-            return this.ladstCapturedPoints;
+            return this.ladstCapturedPoints.points;
+        }
+
+        public Vector4[] GetLastCapturedColors()
+        {
+            return this.ladstCapturedPoints.colors;
         }
 
         //public int GetCapturedPointSize()
