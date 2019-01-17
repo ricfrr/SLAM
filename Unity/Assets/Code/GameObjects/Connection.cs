@@ -41,8 +41,9 @@ namespace Assets.Code.GameObjects
             if (this._3Dcamera.GetCapturedPointSize() > lastCount)
             {
                 lastCount++;
-                _netMqPublisher.refreshPoint(this._3Dcamera.GetLastCapturedPoints());
-                
+                _netMqPublisher.refreshPoint(this._3Dcamera.GetLastCapturedPoints() , this._3Dcamera.GetLastCapturedColors());
+
+
             }
             // client
             _netMqListener.Update();
