@@ -57,8 +57,8 @@ void Communication::sendMessage() {
             memcpy(cloud.data(), message.c_str(), message.length());
             this->publisher->send(cloud);
 
-            //std::cout << "sent!" << std::endl;
         }
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 }
 

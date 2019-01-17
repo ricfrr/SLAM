@@ -48,18 +48,17 @@ void Register::registration() {
                 default:
                     break;
             }
-            PriorityPointCloud generate_points = PriorityPointCloud(k, intermediate_points);
             k++;
+            *registered += *intermediate_points;
+            PriorityPointCloud generate_points = PriorityPointCloud(k, registered);
             this->generated_points->push(generate_points);
 
-
-            *registered += *intermediate_points;
             pcl::copyPointCloud(*buffer, *target);
 
             utilities.downScale(registered);
             utilities.refreshShowCloud(registered);
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     std::cout << "----END REGISTRATION----" << std::endl;
     utilities.continueShowCloud();
