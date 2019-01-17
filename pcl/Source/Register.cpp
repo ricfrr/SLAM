@@ -30,7 +30,7 @@ void Register::registration() {
 
     while (true) {
         if (!priority_points->empty()) {
-            //std::cout<<"REGISTRATION LOOP "<<priority_points->size()<<std::endl;
+            std::cout<<"REGISTRATION LOOP "<<priority_points->size()<<std::endl;
 
             pr = priority_points->top();
             source = pr.getPointCloud();
@@ -48,17 +48,22 @@ void Register::registration() {
                 default:
                     break;
             }
+
+            //Add noise in the intermediate points cloud
+
+            noise.addNoise(intermediate_points);
+            PriorityPointCloud generate_points = PriorityPointCloud(k, intermediate_points);
             k++;
-            *registered += *intermediate_points;
-            PriorityPointCloud generate_points = PriorityPointCloud(k, registered);
             this->generated_points->push(generate_points);
 
+
+            *registered += *intermediate_points;
             pcl::copyPointCloud(*buffer, *target);
 
             utilities.downScale(registered);
             utilities.refreshShowCloud(registered);
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
     std::cout << "----END REGISTRATION----" << std::endl;
     utilities.continueShowCloud();
@@ -73,7 +78,6 @@ Register::Register(int alg,
     this->alg = alg;
     this->normalICP.setTransformationMatrix(&this->transformation);
     this->bruteICP.setTransformationMatrix(&this->transformation);
-
 }
 Register::Register(std::priority_queue<PriorityPointCloud, std::vector<PriorityPointCloud>, PriorityCloudComparator> *priority_points,
                    std::priority_queue<PriorityPointCloud, std::vector<PriorityPointCloud>, PriorityCloudComparator> *generated_points) {
@@ -112,7 +116,6 @@ void Register::resetRegisteredPoint() {
 int Register::getAlgorithm() {
     return this->alg;
 }
-
 void Register::setAlgorithm(int _alg) {
     this->alg = _alg;
 }
