@@ -20,7 +20,7 @@ namespace Assets.Code.Connection
         private const long ContactThreshold = 1000;
         public bool Connected;
 
-        private Vector3[] toSend;
+        private System.Tuple<Vector3[],Vector4[]> toSend; //for the points and colors
 
         public NetMqPublisher(MessageDelegate messageDelegate)
         {
@@ -43,9 +43,9 @@ namespace Assets.Code.Connection
             _listenerWorker.Join();
         }
 
-        public void refreshPoint(Vector3[] capturedPoints)
+        public void refreshPoint(Vector3[] capturedPoints , Vector4[] capturedColors)
         {
-            this.toSend = capturedPoints;
+            this.toSend = new System.Tuple<Vector3[],Vector4[]>(capturedPoints,capturedColors);
             _isSending = true;
         }
 
@@ -65,9 +65,9 @@ namespace Assets.Code.Connection
                     if(_isSending)
                     {
                         sb = new StringBuilder(i.ToString()).Append("\n");
-                        foreach (Vector3 element in this.toSend)
+                        for(int c=0; c < this.toSend.Item1.Length; c++)
                         {
-                            sb.Append(element.x).Append(" ").Append(element.y).Append(" ").Append(element.z).Append("\n");
+                            sb.Append(toSend.Item1[c].x).Append(" ").Append(toSend.Item1[c].y).Append(" ").Append(toSend.Item1[c].z).Append(" ").Append(toSend.Item2[c].x).Append(" ").Append(toSend.Item2[c].y).Append(" ").Append(toSend.Item2[c].z).Append("\n");
                             // normal concatenation does NOT work - unity freez
                             //message +=  + " " + element.y + " " + element.z + "\n";
                         }

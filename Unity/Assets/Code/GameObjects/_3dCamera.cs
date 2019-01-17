@@ -187,6 +187,11 @@ namespace Assets.Code.GameObjects
             return this.capturedPointList.Last.Value.points;
         }
 
+        public Vector4[] GetLastCapturedColors()
+        {
+            return this.capturedPointList.Last.Value.colors;
+        }
+
         public int GetCapturedPointSize()
         {
             return this.capturedPointList.Count;

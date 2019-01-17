@@ -15,13 +15,14 @@ namespace Assets.Code.GameObjects
         private Vector3[] pointsToReach;
         private float maxRange;
         private Material capturePointsMaterial;
+        private Vector4[] colors;
 
         public void Init(Vector3[] pointsToReach, float maxRange, Material capturePointsMaterial)
         {
             this.pointsToReach = pointsToReach;
             this.maxRange = maxRange;
             this.capturePointsMaterial = capturePointsMaterial;
-
+            colors = new Vector4[this.pointsToReach.Length];
             Debug.Log("CapturedPoints init");
         }
 
@@ -46,14 +47,24 @@ namespace Assets.Code.GameObjects
                 if (Physics.Raycast(ray, out hit))
                 {
                     pts[i] = cameraTransform.InverseTransformPoint(hit.point);
+                    Renderer rend = hit.transform.GetComponent<Renderer>();
+                    MeshCollider meshCollider = hit.collider as MeshCollider;
+                    Texture2D tex = rend.material.mainTexture as Texture2D;
+                    Vector2 pixelUV = hit.textureCoord;
+                    pixelUV.x *= tex.width;
+                    pixelUV.y *= tex.height;
+                    Color col = tex.GetPixel((int) pixelUV.x, (int) pixelUV.y);
+                    colors[i] = col;
                     if (pts[i].magnitude > this.maxRange)
                     {
                         pts[i] = new Vector3(0, 0, 0);
+                        colors[i] = Color.black;
                     }
                 }
                 else
                 {
                     pts[i] = Vector3.zero;
+                    colors[i] = Color.black;
                 }
             }
             return pts;
@@ -86,7 +97,7 @@ namespace Assets.Code.GameObjects
             capturedPoints.GetComponent<MeshFilter>().mesh = pointMesh;
             capturedPoints.GetComponent<MeshRenderer>().material = this.capturePointsMaterial;
 
-            capturedPointList.AddLast(new CapturedPointStruct(vertices, filename));
+            capturedPointList.AddLast(new CapturedPointStruct(vertices, filename, colors));
         }
 
         private void makeCapturedPoints(ref GameObject capturedPoints, ref Transform cameraTransform)
