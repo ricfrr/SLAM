@@ -55,6 +55,11 @@ namespace Assets.Code.GameObjects
                     pixelUV.y *= tex.height;
                     Color col = tex.GetPixel((int) pixelUV.x, (int) pixelUV.y);
                     colors[i] = col;
+                    if(colors[i].x < 0.1 && colors[i].y < 0.1 && colors[i].z < 0.1)
+                    {
+                        pts[i] = new Vector3(0, 0, 0);
+                        colors[i] = Color.black;
+                    }
                     if (pts[i].magnitude > this.maxRange)
                     {
                         pts[i] = new Vector3(0, 0, 0);
