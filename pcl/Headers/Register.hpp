@@ -41,7 +41,12 @@ public:
     void resetRegisteredPoint();
     int getAlgorithm();
     void setAlgorithm(int _alg);
+
+    int getNoiseValue();
+    void setNoiseValue(int _noise_value);
+
 private:
+    int noise_value=0;
     int alg = 0;
     std::priority_queue<PriorityPointCloud, std::vector<PriorityPointCloud>, PriorityCloudComparator> *priority_points = nullptr;
     std::priority_queue<PriorityPointCloud, std::vector<PriorityPointCloud>, PriorityCloudComparator> *generated_points = nullptr;

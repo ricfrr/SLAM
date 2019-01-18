@@ -50,8 +50,9 @@ void Register::registration() {
             }
 
             //Add noise in the intermediate points cloud
-
-            noise.addNoise(intermediate_points);
+            if(noise_value==1){
+                noise.addNoise(intermediate_points);
+            }
             PriorityPointCloud generate_points = PriorityPointCloud(k, intermediate_points);
             k++;
             this->generated_points->push(generate_points);
@@ -63,7 +64,7 @@ void Register::registration() {
             utilities.downScale(registered);
             utilities.refreshShowCloud(registered);
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     std::cout << "----END REGISTRATION----" << std::endl;
     utilities.continueShowCloud();
@@ -118,4 +119,11 @@ int Register::getAlgorithm() {
 }
 void Register::setAlgorithm(int _alg) {
     this->alg = _alg;
+}
+
+int Register::getNoiseValue(){
+    return this->noise_value;
+}
+void Register::setNoiseValue(int _noise_value){
+    this->noise_value = _noise_value;
 }

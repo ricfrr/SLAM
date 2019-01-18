@@ -15,6 +15,10 @@ void SettingHandler::handleSetting(Setting *setting) {
     if (msg == "RESET") {
         resetPriorityPoints();
     }
+    if (msg == "NOISE") {
+        regis->setNoiseValue((regis->getNoiseValue()+1)%2);
+        std::cout<<"Noise changed in: "<<regis->getNoiseValue()<<std::endl;
+    }
     if (msg == "ITERATION") {
         if (regis->getAlgorithm() == 0) {
             BruteICP *br = regis->getBruteICP();
