@@ -43,7 +43,6 @@ namespace Assets.Code.GameObjects
         // features in game objects
         public Extrema extrema;
         public CapturedPoints capturedPoints;
-        public Exporter exporter;
         // camera controller
         public CameraController cameraController;
 
@@ -60,7 +59,7 @@ namespace Assets.Code.GameObjects
 
         void Start()
         {
-            this.cameraController.SetPosition(new Vector3(0, 0, -40));
+            this.cameraController.SetPosition(new Vector3(0, 0, 0));
             this.cameraController.SetRotation(new Vector3(0, 0, 0));
             this.geometryShader = Resources.Load<Shader>("GeometryShader");
 
@@ -102,11 +101,6 @@ namespace Assets.Code.GameObjects
                 {
                     this.nextActionTime = 0.0f;
                 }
-            }
-            
-            if (GUI.Button(new Rect(Screen.width - 130, Screen.height - 90, 120, 30), "Export"))
-            {
-                this.exporter.ExportToFile(this.capturedPointList);
             }
         }
 

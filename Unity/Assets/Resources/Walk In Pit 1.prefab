@@ -312,6 +312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4665278787253694}
   - component: {fileID: 114338352510537306}
+  - component: {fileID: 114454942988172826}
   m_Layer: 0
   m_Name: Connection
   m_TagString: Untagged
@@ -845,22 +846,6 @@ GameObject:
   - component: {fileID: 114638250465743308}
   m_Layer: 5
   m_Name: Play
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1606951103547320
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4790549287738694}
-  - component: {fileID: 114393021984844832}
-  m_Layer: 0
-  m_Name: Exporter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1534,7 +1519,6 @@ Transform:
   - {fileID: 4101502944456530}
   - {fileID: 4689332858979140}
   - {fileID: 4049643664017958}
-  - {fileID: 4790549287738694}
   - {fileID: 4665278787253694}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1697,7 +1681,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4208196907558888}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4689332858979140
 Transform:
@@ -1777,19 +1761,6 @@ Transform:
   - {fileID: 4464830220288406}
   m_Father: {fileID: 4101502944456530}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4790549287738694
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1606951103547320}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4208196907558888}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4829665649341128
 Transform:
@@ -3888,7 +3859,6 @@ MonoBehaviour:
   period: 1
   extrema: {fileID: 114900026120835380}
   capturedPoints: {fileID: 114751382567400410}
-  exporter: {fileID: 114393021984844832}
   cameraController: {fileID: 114667677650176148}
 --- !u!114 &114206609877943120
 MonoBehaviour:
@@ -4201,8 +4171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06e30533a13a34f48b38d89762024faa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Connected: 0
   _3Dcamera: {fileID: 114204616786638026}
+  pclSettingsCtrl: {fileID: 114454942988172826}
 --- !u!114 &114348199752882704
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4369,17 +4339,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Back
---- !u!114 &114393021984844832
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1606951103547320}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2416c18dbb7a1484197e9089e85fbbf8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114401850336319718
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4495,6 +4454,17 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114454942988172826
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1179671942929260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 639321bf1f4b44c4fb268024b6df0c5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114464480525050024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5706,7 +5676,7 @@ CapsuleCollider:
   m_Radius: 10
   m_Height: 25
   m_Direction: 2
-  m_Center: {x: 0, y: 5, z: 0}
+  m_Center: {x: 0, y: 10, z: 0}
 --- !u!136 &136467438247731940
 CapsuleCollider:
   m_ObjectHideFlags: 1

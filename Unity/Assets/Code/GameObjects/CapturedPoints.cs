@@ -85,7 +85,7 @@ namespace Assets.Code.GameObjects
 
             Mesh pointMesh = new Mesh();
 
-            int max = 60000;
+            int max = 10000;
             Vector3[] vertices = new Vector3[max];
             int[] indices = new int[max];
             for (int i = 0; i < max; i++)
