@@ -31,22 +31,27 @@ namespace Assets.Code.Controllers
 
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                this.actualParam = "ITERATION\n";
+                this.actualParam = "ITERATION\n"; // 1-20
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                this.actualParam = "CORRESPONDENCE\n";
+                this.actualParam = "CORRESPONDENCE\n"; // 1-200
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha4))
             {
-                this.actualParam = "EUCLIDEAN_FITNESS\n";
+                this.actualParam = "EUCLIDEAN_FITNESS\n"; // 1-14
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha5))
             {
-                this.actualParam = "TRANSFORMATION_EPSILON\n";
+                this.actualParam = "TRANSFORMATION_EPSILON\n"; // 1-14
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                this.actualParam = "NOISE"; // on off
             }
 
         }
