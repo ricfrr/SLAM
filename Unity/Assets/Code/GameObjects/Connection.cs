@@ -21,7 +21,8 @@ namespace Assets.Code.GameObjects
         // reference
         public _3dCamera _3Dcamera;
         public PclSettingsController pclSettingsCtrl;
-
+        public List<Vector3> listOfPoints = new List<Vector3>();
+        public GameObject loadedObject;
         private int lastCount;
 
         // Use this for initialization
@@ -34,7 +35,7 @@ namespace Assets.Code.GameObjects
             _netMqPCLParams = new NetMqPCLParams(PublisParameter);
             _netMqPCLParams.Start();
             // client
-            _netMqListener = new NetMqListener(LisenMessage);
+            _netMqListener = new NetMqListener(ListenMessage);
             _netMqListener.Start();
 
             lastCount = 0;
@@ -85,15 +86,32 @@ namespace Assets.Code.GameObjects
         }
 
         // client
-        private void LisenMessage(string message)
+        private void ListenMessage(string message)
         {
-            Debug.Log("recived message: "+message);
-            //var splittedStrings = message.Split(' ');
-            //if (splittedStrings.Length != 3) return;
-            //var x = float.Parse(splittedStrings[0]);
-            //var y = float.Parse(splittedStrings[1]);
-            //var z = float.Parse(splittedStrings[2]);
-            //transform.position = new Vector3(x, y, z);
+            if(message != null)
+            {
+                Debug.Log("recived message: " + message);
+                var splittedMessage = message.Split('\n');
+                for (var i = 1; i < splittedMessage.Length; i++)
+                {
+                    var splittedPoint = splittedMessage[i].Split(' ');
+                    Debug.Log("Splitted point dimension: " + splittedPoint.Length);
+                    var x = float.Parse(splittedPoint[0]);
+                    var y = float.Parse(splittedPoint[1]);
+                    var z = float.Parse(splittedPoint[2]);
+                    listOfPoints.Add(new Vector3(x, y, z));
+                }
+
+                Mesh pointMesh = new Mesh();
+                pointMesh.SetVertices(listOfPoints);
+                pointMesh.RecalculateBounds();
+                this.loadedObject.GetComponent<MeshFilter>().mesh = pointMesh;
+                Material material = new Material(Resources.Load<Shader>("GeometryShader"));
+                material.SetFloat("_Size", 1);
+                material.SetColor("_Color", Color.cyan);
+                this.loadedObject.GetComponent<MeshRenderer>().material = material;
+            }
+            
         }
     }
 }
