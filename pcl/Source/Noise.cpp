@@ -17,7 +17,7 @@ void Noise::addNoise(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloudToModify){
     for(auto& x : cloudToModify->points){
         //Standard deviation given by the distance as factor of inclination
         float stddev = x.z*inclination;
-        float reflection = 0.5;
+        float reflection = x.r+x.g+x.b;
         //Generating the normal distribution for the errors
         std::normal_distribution<float> dist(mean, stddev); //Distribution for distances
         std::normal_distribution<float> rifl(mean, reflection);
