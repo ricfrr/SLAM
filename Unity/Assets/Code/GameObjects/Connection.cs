@@ -22,7 +22,7 @@ namespace Assets.Code.GameObjects
         public _3dCamera _3Dcamera;
         public PclSettingsController pclSettingsCtrl;
 
-        public Inporter inputer;
+        public Inporter inporter;
 
         public List<Vector3> listOfPoints = new List<Vector3>();
         public GameObject loadedObject;
@@ -93,7 +93,7 @@ namespace Assets.Code.GameObjects
         {
             if(message != null)
             {
-                inputer.SetPoints(message);
+                this.inporter.SetPoints(message);
             }
 
             //if(message != null)
@@ -119,7 +119,7 @@ namespace Assets.Code.GameObjects
             //    material.SetColor("_Color", Color.cyan);
             //    this.loadedObject.GetComponent<MeshRenderer>().material = material;
             //}
-            
+
         }
     }
 }

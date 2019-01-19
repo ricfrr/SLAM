@@ -128,11 +128,11 @@
     <Reference Include="Unity.PackageManagerUI.Editor">
       <HintPath>D:/UniTn/1st semester/robotics preciption and action/slam project/SLAM/Unity/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>D:/UniTn/1st semester/robotics preciption and action/slam project/SLAM/Unity/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
       <HintPath>D:/UniTn/1st semester/robotics preciption and action/slam project/SLAM/Unity/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>D:/UniTn/1st semester/robotics preciption and action/slam project/SLAM/Unity/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
       <HintPath>D:/UniTn/1st semester/robotics preciption and action/slam project/SLAM/Unity/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>

@@ -5,6 +5,7 @@ using System.IO;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
+using System.Globalization;
 
 public class Inporter : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class Inporter : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
@@ -26,41 +27,45 @@ public class Inporter : MonoBehaviour
         if (this.readyToPlot)
         {
             this.Ploting();
-            this.readyToPlot = false;
         }
     }
 
     public void SetPoints(string input)
     {
-        this.incomeStream = input;
-        this.readyToPlot = true;
+        if(!this.readyToPlot)
+        {
+            this.incomeStream = input;
+            this.readyToPlot = true;
+        }
     }
 
     private void Ploting()
     {
+        //Debug.Log(incomeStream);
         string[] points_xyz = incomeStream.Split('\n');
-
-        int nPoints = Convert.ToInt32(points_xyz.Length);
+        points_xyz[points_xyz.Length-1] = "0.0000 0.0000 0.0000";
+        int nPoints = points_xyz.Length;
         this.loadedPoints = new Vector3[nPoints];
         int[] indices = new int[nPoints];
 
         int i = 0;
+        CultureInfo cinfo = new CultureInfo("en-US");
         foreach (string point in points_xyz)
         {
             indices[i] = i;
 
-            string[] vector = point.Split();
+            string[] vector = point.Split(' ');
+
             this.loadedPoints[i] = new Vector3(
-                Convert.ToSingle(vector[0]),
-                Convert.ToSingle(vector[1]),
-                Convert.ToSingle(vector[2])
+                Convert.ToSingle(vector[0].Substring(0, 5), cinfo),
+                Convert.ToSingle(vector[1].Substring(0, 5), cinfo),
+                Convert.ToSingle(vector[2].Substring(0, 5), cinfo)
             );
             i++;
         }
 
         // ------------------------------------------------
-                
-                
+
         Mesh pointMesh = new Mesh();
         pointMesh.vertices = this.loadedPoints;
         pointMesh.SetIndices(indices, MeshTopology.Points, 0);
@@ -72,5 +77,6 @@ public class Inporter : MonoBehaviour
         material.SetColor("_Color", Color.cyan);
         this.loadedObject.GetComponent<MeshRenderer>().material = material;
 
+        this.readyToPlot = false;
     }
 }
