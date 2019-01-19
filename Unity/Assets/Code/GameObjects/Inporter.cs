@@ -9,84 +9,68 @@ using UnityEditor;
 public class Inporter : MonoBehaviour
 {
     public GameObject loadedObject;
+    private string incomeStream;
     private Vector3[] loadedPoints;
+
+    private bool readyToPlot = false;
 
     // Use this for initialization
     void Start()
     {
-        ImportFromFile();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (this.readyToPlot)
+        {
+            this.Ploting();
+            this.readyToPlot = false;
+        }
     }
 
-    public void ImportFromFile()
+    public void SetPoints(string input)
     {
-        //new Thread(() =>
-        //{
-        string path = EditorUtility.OpenFilePanel("Load pcd", "", "pcd");
-        try
-            {
-                StreamReader reader = new StreamReader(path, false);
+        this.incomeStream = input;
+        this.readyToPlot = true;
+    }
 
-                reader.ReadLine();
-                reader.ReadLine();
-                reader.ReadLine();
-                reader.ReadLine();
-                reader.ReadLine();
-                reader.ReadLine();
-                reader.ReadLine();
-                reader.ReadLine();
-                reader.ReadLine();
+    private void Ploting()
+    {
+        string[] points_xyz = incomeStream.Split('\n');
 
-                int nPoints = Convert.ToInt32(reader.ReadLine().Split()[1]);
-                this.loadedPoints = new Vector3[nPoints];
-                int[] indices = new int[nPoints];
+        int nPoints = Convert.ToInt32(points_xyz.Length);
+        this.loadedPoints = new Vector3[nPoints];
+        int[] indices = new int[nPoints];
 
-                reader.ReadLine();
+        int i = 0;
+        foreach (string point in points_xyz)
+        {
+            indices[i] = i;
 
-                string line;
-                int i = 0;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    indices[i] = i;
-
-                    string[] vector = line.Split();
-                    this.loadedPoints[i] = new Vector3(
-                        Convert.ToSingle(vector[0]),
-                        Convert.ToSingle(vector[1]),
-                        Convert.ToSingle(vector[2])
-                    );
-                    i++;
-                }
-
-                Debug.Log(i);
-
-                reader.Close();
-
-                // ------------------------------------------------
-                
-                
-                Mesh pointMesh = new Mesh();
-                pointMesh.vertices = this.loadedPoints;
-                pointMesh.SetIndices(indices, MeshTopology.Points, 0);
-                pointMesh.RecalculateBounds();
-                this.loadedObject.GetComponent<MeshFilter>().mesh = pointMesh;
-
-                Material material = new Material(Resources.Load<Shader>("GeometryShader"));
-                material.SetFloat("_Size", 1);
-                material.SetColor("_Color", Color.cyan);
-                this.loadedObject.GetComponent<MeshRenderer>().material = material;
+            string[] vector = point.Split();
+            this.loadedPoints[i] = new Vector3(
+                Convert.ToSingle(vector[0]),
+                Convert.ToSingle(vector[1]),
+                Convert.ToSingle(vector[2])
+            );
+            i++;
         }
-            catch (Exception ex)
-            {
-                Debug.Log("The file could not be read:");
-                Debug.Log(ex.Message);
-            }
 
-        //}).Start();
+        // ------------------------------------------------
+                
+                
+        Mesh pointMesh = new Mesh();
+        pointMesh.vertices = this.loadedPoints;
+        pointMesh.SetIndices(indices, MeshTopology.Points, 0);
+        pointMesh.RecalculateBounds();
+        this.loadedObject.GetComponent<MeshFilter>().mesh = pointMesh;
+
+        Material material = new Material(Resources.Load<Shader>("GeometryShader"));
+        material.SetFloat("_Size", 1);
+        material.SetColor("_Color", Color.cyan);
+        this.loadedObject.GetComponent<MeshRenderer>().material = material;
+
     }
 }
