@@ -43,6 +43,7 @@ public class Inporter : MonoBehaviour
     {
         //Debug.Log(incomeStream);
         string[] points_xyz = incomeStream.Split('\n');
+        points_xyz[0] = "0.0000 0.0000 0.0000";
         points_xyz[points_xyz.Length-1] = "0.0000 0.0000 0.0000";
         int nPoints = points_xyz.Length;
         this.loadedPoints = new Vector3[nPoints];
