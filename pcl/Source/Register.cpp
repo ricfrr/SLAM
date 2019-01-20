@@ -24,7 +24,7 @@ void Register::registration() {
     target = pr.getPointCloud();
     priority_points->pop();
     utilities.downScale(target);
-    utilities.showCloud(target);
+    //utilities.showCloud(target);
 
     int k = 0;
 
@@ -53,21 +53,24 @@ void Register::registration() {
             if(noise_value==1){
                 noise.addNoise(intermediate_points);
             }
-            PriorityPointCloud generate_points = PriorityPointCloud(k, intermediate_points);
-            k++;
-            this->generated_points->push(generate_points);
+
 
 
             *registered += *intermediate_points;
+            utilities.downScale(registered);
+
+            std::cout<<"registered size "<<registered->points.size()<<std::endl;
+            PriorityPointCloud generate_points = PriorityPointCloud(k, registered);
+            k++;
+            this->generated_points->push(generate_points);
             pcl::copyPointCloud(*buffer, *target);
 
-            utilities.downScale(registered);
-            utilities.refreshShowCloud(registered);
+            //utilities.refreshShowCloud(registered);
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     std::cout << "----END REGISTRATION----" << std::endl;
-    utilities.continueShowCloud();
+    //utilities.continueShowCloud();
 
 }
 
