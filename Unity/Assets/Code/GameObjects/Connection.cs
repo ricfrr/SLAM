@@ -41,6 +41,7 @@ namespace Assets.Code.GameObjects
             _netMqListener = new NetMqListener(ListenMessage);
             _netMqListener.Start();
 
+
             lastCount = 0;
         }
 

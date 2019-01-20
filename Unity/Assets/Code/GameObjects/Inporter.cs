@@ -43,6 +43,7 @@ public class Inporter : MonoBehaviour
     {
         //Debug.Log(incomeStream);
         string[] points_xyz = incomeStream.Split('\n');
+        points_xyz[0] = "0.0000 0.0000 0.0000";
         points_xyz[points_xyz.Length-1] = "0.0000 0.0000 0.0000";
         int nPoints = points_xyz.Length;
         this.loadedPoints = new Vector3[nPoints];
@@ -55,7 +56,7 @@ public class Inporter : MonoBehaviour
             indices[i] = i;
 
             string[] vector = point.Split(' ');
-
+            //Debug.Log(incomeStream);
             this.loadedPoints[i] = new Vector3(
                 Convert.ToSingle(vector[0].Substring(0, 5), cinfo),
                 Convert.ToSingle(vector[1].Substring(0, 5), cinfo),
@@ -63,7 +64,7 @@ public class Inporter : MonoBehaviour
             );
             i++;
         }
-
+       
         // ------------------------------------------------
 
         Mesh pointMesh = new Mesh();
