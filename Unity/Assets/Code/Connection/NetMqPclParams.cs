@@ -55,7 +55,7 @@ namespace Assets.Code.Connection
             using (var server = new PublisherSocket())
             {
                 server.Options.SendHighWatermark = 1000;
-                server.Bind("tcp://localhost:12348");
+                server.Bind("tcp://0.0.0.0:12348");
                 UnityEngine.Debug.Log("connected");
 
                 int i = 0;
