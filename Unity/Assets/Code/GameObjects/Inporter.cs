@@ -43,7 +43,7 @@ public class Inporter : MonoBehaviour
     {
         //Debug.Log(incomeStream);
         string[] points_xyz = incomeStream.Split('\n');
-        points_xyz[0] = "0.0000 0.0000 0.0000";
+        //points_xyz[0] = "0.0000 0.0000 0.0000";
         points_xyz[points_xyz.Length-1] = "0.0000 0.0000 0.0000";
         int nPoints = points_xyz.Length;
         this.loadedPoints = new Vector3[nPoints];
@@ -72,9 +72,9 @@ public class Inporter : MonoBehaviour
         pointMesh.SetIndices(indices, MeshTopology.Points, 0);
         pointMesh.RecalculateBounds();
         this.loadedObject.GetComponent<MeshFilter>().mesh = pointMesh;
-
-        Material material = new Material(Resources.Load<Shader>("GeometryShader"));
-        material.SetFloat("_Size", 1);
+        
+        Material material = new Material(Shader.Find("Standard"));
+        material.SetFloat("_Size", 3);
         material.SetColor("_Color", Color.cyan);
         this.loadedObject.GetComponent<MeshRenderer>().material = material;
 

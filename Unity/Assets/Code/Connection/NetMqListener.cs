@@ -55,7 +55,7 @@ namespace Assets.Code.Connection
             using (var subSocket = new SubscriberSocket())
             {
                 subSocket.Options.ReceiveHighWatermark = 1000;
-                subSocket.Connect("tcp://0.0.0.0:12346");
+                subSocket.Connect("tcp://localhost:12346");
                 subSocket.Subscribe("");
                 while (!_listenerCancelled)
                 {
